@@ -1,0 +1,6 @@
+degree 3, 169 x 332 cells, 45416 active; 2324 Dirichlet nodes
+FEniCSx 0.11.0: 45416 cells, 410248 dofs, solved in 1.9 s; impedance 93.950274297 ohm
+FEniCSx solve 1.9 s, adapter 5.2 s, check 17.5 s
+FEniCSx    impedance 93.950274297 - 93.950275789 ohm; eta 1.300e-05; tile width median 1.89%, worst 18.0%; own claim 93.950274297 ohm, proven to 1e-5: True
+certsim    impedance 93.950274297 - 93.950275789 ohm; eta 1.300e-05; tile width median 1.89%, worst 18.0%; own claim 93.950275028 ohm, proven to 1e-5: True
+max |v_fenics - v_certsim| = 6.843e-09 V

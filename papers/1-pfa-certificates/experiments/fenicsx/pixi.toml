@@ -1,0 +1,15 @@
+[workspace]
+authors = ["Konstantinos Dovelos <kostisdovelos@hotmail.com>"]
+channels = ["conda-forge"]
+name = "e1_fenicsx"
+platforms = ["osx-arm64"]
+version = "0.1.0"
+
+[tasks]
+solve = "python fenics_solve.py"
+
+[dependencies]
+fenics-dolfinx = ">=0.11,<0.12"
+numpy = ">=2.5.4,<3"
+gmsh = ">=4.15.2,<5"
+python-gmsh = ">=4.15.2,<5"

@@ -1,0 +1,24 @@
+== 1. monopolar: point certificates against the ratio-range certificate ==
+range rho (1.7, 3.75): eta_max 1.5207e-05; tile relative width median 0.083, worst 0.269
+grid: 170 x 333 nodes, 56108 cells
+rho 1.7: 768/768 tiles inside the range bounds; 1000 V, 700 V/cm: depth 3.50-3.50 mm, radius 4.75-4.75 mm
+rho 2.2: 768/768 tiles inside the range bounds; 1000 V, 700 V/cm: depth 3.50-3.75 mm, radius 4.75-4.75 mm
+rho 3.3: 768/768 tiles inside the range bounds; 1000 V, 700 V/cm: depth 3.50-3.75 mm, radius 4.75-4.75 mm
+rho 3.75: 768/768 tiles inside the range bounds; 1000 V, 700 V/cm: depth 3.50-3.75 mm, radius 5.00-5.00 mm
+
+== 2. degree 1 with weaker grading (pfa_feasibility grid) ==
+grid 264 x 507 nodes, 133078 cells: eta 1.6363e-03
+
+== 3. bipolar: conductivity ratios outside [1.7, 3.75] ==
+rho 0.7: depth@500 V 2.25-2.50 mm; V for 1 mm (np.float64(175.0), np.float64(200.0)), for 3 mm (np.float64(650.0), np.float64(700.0)) (proven insufficient, proven sufficient); impedance 590.4120-590.4120 ohm
+rho 1.0: depth@500 V 2.50-2.50 mm; V for 1 mm (np.float64(150.0), np.float64(175.0)), for 3 mm (np.float64(575.0), np.float64(650.0)) (proven insufficient, proven sufficient); impedance 434.7528-434.7528 ohm
+rho 2.8: depth@500 V 2.75-3.00 mm; V for 1 mm (np.float64(150.0), np.float64(175.0)), for 3 mm (np.float64(475.0), np.float64(550.0)) (proven insufficient, proven sufficient); impedance 172.6044-172.6044 ohm
+rho 7.0: depth@500 V 3.00-3.00 mm; V for 1 mm (np.float64(125.0), np.float64(175.0)), for 3 mm (np.float64(425.0), np.float64(500.0)) (proven insufficient, proven sufficient); impedance 72.4924-72.4924 ohm
+rho 10.0: depth@500 V 3.00-3.25 mm; V for 1 mm (np.float64(125.0), np.float64(175.0)), for 3 mm (np.float64(425.0), np.float64(500.0)) (proven insufficient, proven sufficient); impedance 51.3062-51.3062 ohm
+
+== 4. bipolar ratio-range certificate and gap factors ==
+contact range rho (1.7, 3.75): eta_max 1.6787e-05; tile relative width median 0.179, worst 0.681
+gap 1 mm: 3 mm needs (675, 775] V vs (475, 550] V in contact; factor between 1.23 and 1.63
+gap 2 mm: 3 mm needs (975, 1175] V vs (475, 550] V in contact; factor between 1.77 and 2.47
+
+done in 328 s

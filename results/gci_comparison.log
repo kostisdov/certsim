@@ -1,0 +1,50 @@
+uniform  h=1.000 mm      666 cells     0.2 s
+uniform  h=0.500 mm     2278 cells     0.5 s
+uniform  h=0.250 mm     8580 cells     2.0 s
+uniform  h=0.125 mm    33667 cells     8.1 s
+graded   h=1.000 mm     4180 cells     0.8 s
+graded   h=0.500 mm    14193 cells     2.5 s
+graded   h=0.250 mm    50721 cells    10.2 s
+graded   h=0.125 mm   183920 cells    43.7 s
+
+== Z [ohm]  certified reference 93.9502744 - 93.9502757
+  uniform  h=1.000  FE 93.1080076   certified 93.1080076 - 94.6375083
+  uniform  h=0.500  FE 93.5183955   certified 93.5183955 - 94.3420295
+  uniform  h=0.250  FE 93.6772757   certified 93.6772757 - 94.2149216
+  uniform  h=0.125  FE 93.8163044   certified 93.8163044 - 94.0817703
+  uniform  GCI: R 0.875 (converging), order 0.19, extrapolated 94.7899862, band 92.5992021 - 95.0334067 (+-1.3%), consistent with the reference
+  graded   h=1.000  FE 93.9355262   certified 93.9355266 - 93.9622244
+  graded   h=0.500  FE 93.9492145   certified 93.9492146 - 93.9511274
+  graded   h=0.250  FE 93.9502057   certified 93.9502055 - 93.9503311
+  graded   h=0.125  FE 93.9502695   certified 93.9502694 - 93.9502797
+  graded   GCI: R 0.064 (converging), order 3.96, extrapolated 93.9502738, band 93.950264 - 93.9502749 (+-5.84e-06%), consistent with the reference
+
+== corner [V/m]  certified reference 566418.227 - 567462.722
+  uniform  h=1.000  FE 578755.328   certified 0 - 1124620.63
+  uniform  h=0.500  FE 578204.589   certified 147651.794 - 979252.264
+  uniform  h=0.250  FE 577008.454   certified 230388.95 - 902157.864
+  uniform  h=0.125  FE 570835.754   certified 330659.571 - 802680.443
+  uniform  GCI: R 5.161 (diverging), order 2.37, extrapolated 569352.124, band 568981.216 - 572690.291 (+-0.325%), misses the reference
+  graded   h=1.000  FE 566775.668   certified 492101.971 - 641792.854
+  graded   h=0.500  FE 566928.286   certified 546907.242 - 586973.949
+  graded   h=0.250  FE 566939.609   certified 561807.196 - 572073.7
+  graded   h=0.125  FE 566940.317   certified 565471.655 - 568408.788
+  graded   GCI: R 0.062 (converging), order 4.00, extrapolated 566940.364, band 566940.258 - 566940.376 (+-1.04e-05%), consistent with the reference
+
+== axis [V/m]  certified reference 67616.0117 - 71080.2096
+  uniform  h=1.000  FE 69493.8892   certified 0 - 1949814.81
+  uniform  h=0.500  FE 69403.4977   certified 0 - 1448398.95
+  uniform  h=0.250  FE 69384.4075   certified 0 - 1183351.68
+  uniform  h=0.125  FE 69362.7315   certified 0 - 852106.335
+  uniform  GCI: R 1.135 (diverging), order 0.18, extrapolated 69202.7058, band 69162.6994 - 69562.7636 (+-0.288%), consistent with the reference
+  graded   h=1.000  FE 69376.1993   certified 0 - 317597.357
+  graded   h=0.500  FE 69350.0599   certified 2905.97039 - 135792.203
+  graded   h=0.250  FE 69348.2279   certified 52323.102 - 86373.2428
+  graded   h=0.125  FE 69348.1057   certified 64477.3994 - 74218.7692
+  graded   GCI: R 0.067 (converging), order 3.91, extrapolated 69348.097, band 69348.0948 - 69348.1166 (+-1.57e-05%), consistent with the reference
+
+== wrong physics, graded grids [ohm]  true impedance 93.9502744 - 93.9502757
+  swap_sigma solver's own Z 136.804, 136.806, 136.806; GCI: R 0.064 (converging), order 3.96, band 136.806 - 136.806
+  swap_sigma certified against the true spec (finest grid): 88.6675 - 220.837; claim inside: True; claim proven to 1%: False
+  planar     solver's own Z 0.39304, 0.393041, 0.393041; GCI: R 0.072 (converging), order 3.80, band 0.393041 - 0.393041
+  planar     certified against the true spec (finest grid): 40.3622 - 145.365; claim inside: False; claim proven to 1%: False

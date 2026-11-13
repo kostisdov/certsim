@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+results/*
+.claude/
+papers/*/build.log
+.DS_Store
+
+# LaTeX build outputs
+*.aux
+*.log
+*.out
+*.synctex.gz
+
+# reference logs of the scripts (outputs and caches in results/ stay untracked)
+!results/*.log

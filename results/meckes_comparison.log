@@ -1,0 +1,26 @@
+certifying (cached in results/) ...
+  meckes_contact_range.pkl: 923 s
+  meckes_gap0.pkl: 43 s
+  meckes_gap1mm.pkl: 43 s
+  meckes_gap2mm.pkl: 42 s
+  meckes_gap3mm.pkl: 43 s
+  meckes_gap4mm.pkl: 44 s
+
+bipolar catheter, contact, threshold 268 V/cm, every conductivity ratio 1.7-3.75 (eta_max 1.7e-05)
+  voltage   certified depth [mm]   Meckes 2022 [mm]
+     500 V            2.75-3.00    2.28  (in vivo 2.25 +- 0.85 (Stewart))
+     700 V            3.25-3.75    3.00  (Meckes: minimum voltage for 3 mm (a voltage, not a depth))
+    2200 V            5.75-7.50    6.16  (in vivo 6.5 +- 1.7 (Koruth))
+    2500 V              6.00->8    6.50  (upper end of 2.5-6.5 mm range)
+
+minimum voltage for a given depth, nominal conductivities: proven insufficient / proven sufficient
+  gap      1 mm deep          3 mm deep
+  0 mm        150 / 175 V        475 / 550 V
+  1 mm        225 / 275 V        675 / 775 V
+  2 mm        400 / 450 V       975 / 1175 V
+  3 mm        650 / 750 V      1350 / 1750 V
+  4 mm       950 / 1175 V     1800 / >2500 V
+  Meckes: >1 mm needs 300 V; 3 mm needs 700 V in contact and about 1500 V at 1-2 mm
+  Meckes: at 1200 V the depth is negligible from 4 mm away
+  certified at 1200 V, 4 mm gap: depth 1.00-1.50 mm
+wrote /Users/kostisdovelos/code/certsim-public/results/fig_meckes.pdf
