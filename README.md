@@ -10,7 +10,8 @@ This repository contains the code and the scripts that reproduce every number
 in
 
 > K. Dovelos, "Certificate-Based Verification of Pulsed Field Ablation Models,"
-> 2026. Source and PDF in [`papers/1-pfa-certificates/`](papers/1-pfa-certificates/).
+> [arXiv:2611.18148](https://arxiv.org/abs/2611.18148), 2026. Source and PDF in
+> [`papers/1-pfa-certificates/`](papers/1-pfa-certificates/).
 
 The tag `v1.0-preprint` is the version described in the paper.
 
