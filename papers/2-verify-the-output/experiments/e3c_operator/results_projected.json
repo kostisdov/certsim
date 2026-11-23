@@ -1,0 +1,2070 @@
+{
+ "summary": {
+  "nodal/test_in/K12": {
+   "n": 12,
+   "contains": 12,
+   "width": [
+    0.1636978265104182,
+    3.994913149871688
+   ],
+   "eta": [
+    0.03720991651061923,
+    0.18203324327918102
+   ],
+   "depth_bracketed": 0,
+   "reference_width": [
+    3.2274850212630566e-07,
+    2.8266650868520293e-06
+   ]
+  },
+  "nodal/test_in/K24": {
+   "n": 12,
+   "contains": 12,
+   "width": [
+    5.6819245526571605,
+    49.886125970374636
+   ],
+   "eta": [
+    0.3395493230871564,
+    0.6484691973312408
+   ],
+   "depth_bracketed": 0,
+   "reference_width": [
+    3.47848025098592e-07,
+    3.3229098174806598e-06
+   ]
+  },
+  "nodal/test_in/K48": {
+   "n": 12,
+   "contains": 12,
+   "width": [
+    10.86023480360937,
+    68.37423450096627
+   ],
+   "eta": [
+    0.4218157479061216,
+    0.7652954018719211
+   ],
+   "depth_bracketed": 0,
+   "reference_width": [
+    3.4562884606564765e-07,
+    3.276752551437631e-06
+   ]
+  },
+  "nodal/test_out/K12": {
+   "n": 8,
+   "contains": 8,
+   "width": [
+    5.278223059106335,
+    119856.39161835569
+   ],
+   "eta": [
+    0.4387519443245426,
+    18.32907272058129
+   ],
+   "depth_bracketed": 0,
+   "reference_width": [
+    1.9055057601252892e-05,
+    0.0956669915285087
+   ]
+  },
+  "nodal/test_out/K24": {
+   "n": 8,
+   "contains": 8,
+   "width": [
+    154.00287458642703,
+    415475.0061105951
+   ],
+   "eta": [
+    2.578446746204861,
+    84.33782670662332
+   ],
+   "depth_bracketed": 0,
+   "reference_width": [
+    3.500869133514514e-05,
+    0.8984996271590767
+   ]
+  },
+  "nodal/test_out/K48": {
+   "n": 8,
+   "contains": 8,
+   "width": [
+    220.53773053862943,
+    567506.0272508308
+   ],
+   "eta": [
+    2.7709267859577023,
+    86.30502367379138
+   ],
+   "depth_bracketed": 0,
+   "reference_width": [
+    3.4593674447007885e-05,
+    0.8822134681562309
+   ]
+  },
+  "energy/test_in/K12": {
+   "n": 12,
+   "contains": 12,
+   "width": [
+    16395.85622615325,
+    95910.91066359167
+   ],
+   "eta": [
+    15.023001920842518,
+    19.681634205755724
+   ],
+   "depth_bracketed": 0
+  },
+  "energy/test_in/K24": {
+   "n": 12,
+   "contains": 12,
+   "width": [
+    58347.00825213959,
+    161143.57756741712
+   ],
+   "eta": [
+    44.357174653862664,
+    50.906439260545326
+   ],
+   "depth_bracketed": 0
+  },
+  "energy/test_in/K48": {
+   "n": 12,
+   "contains": 12,
+   "width": [
+    62241.894465023586,
+    163030.0569027315
+   ],
+   "eta": [
+    46.88513098432323,
+    53.9788311842577
+   ],
+   "depth_bracketed": 0
+  },
+  "energy/test_out/K12": {
+   "n": 8,
+   "contains": 8,
+   "width": [
+    1873.2302015438606,
+    1675503.6453955863
+   ],
+   "eta": [
+    13.319378231269905,
+    29.68380804175933
+   ],
+   "depth_bracketed": 0
+  },
+  "energy/test_out/K24": {
+   "n": 8,
+   "contains": 8,
+   "width": [
+    41915.13316307114,
+    2386591.527390431
+   ],
+   "eta": [
+    42.168792650922946,
+    107.27872585361114
+   ],
+   "depth_bracketed": 0
+  },
+  "energy/test_out/K48": {
+   "n": 8,
+   "contains": 8,
+   "width": [
+    47046.830885245385,
+    2361288.203462611
+   ],
+   "eta": [
+    43.630607171365476,
+    112.7906540575473
+   ],
+   "depth_bracketed": 0
+  }
+ },
+ "rows": {
+  "nodal/test_in/K12": [
+   {
+    "contains_truth": true,
+    "cert_rel_width": 0.1636978265104182,
+    "eta": 0.03720991651061923,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9110511950815074,
+    "L": 0.003319626719119277,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 5.061461413560985e-07,
+     "eta": 6.431537997286797e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 0.30916697106749824,
+    "eta": 0.0683908211067319,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.918866551266466,
+    "L": 0.003287096941554801,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 3.9993460520188457e-07,
+     "eta": 6.797514242862236e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 0.8833122669411049,
+    "eta": 0.08745229840921469,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9782669033312266,
+    "L": 0.00330236416113453,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 5.203994089187168e-07,
+     "eta": 6.604220061490197e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 1.554926733784695,
+    "eta": 0.10981545987723897,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9778094371600603,
+    "L": 0.0025815526173635127,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 1.1206816055340513e-06,
+     "eta": 9.13247160951869e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 0.21831361822022255,
+    "eta": 0.05453209241386504,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.344181283109892,
+    "L": 0.0033612834961776685,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 9.7918550343499e-07,
+     "eta": 0.00011344853680839152,
+     "depth": [
+      0.003,
+      0.00425
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 0.19192581105489448,
+    "eta": 0.053607986192218966,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.401038855709063,
+    "L": 0.0029719097193587904,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 3.894048337447863e-07,
+     "eta": 6.979978832077906e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 1.8197241266242716,
+    "eta": 0.12336102988317622,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.1115779086118303,
+    "L": 0.0025070918286031665,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 2.8266650868520293e-06,
+     "eta": 0.00014784935092393428,
+     "depth": [
+      0.003,
+      0.0045000000000000005
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 0.34930236235495166,
+    "eta": 0.07189209281932564,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.8333956431709417,
+    "L": 0.003219909383508693,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 3.2274850212630566e-07,
+     "eta": 5.997505479626853e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 1.048382754007387,
+    "eta": 0.1194602995409494,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.292575583670837,
+    "L": 0.002781877827364542,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 4.1805747864011427e-07,
+     "eta": 7.013155106960768e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 3.994913149871688,
+    "eta": 0.18203324327918102,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.015552357659218,
+    "L": 0.003139331380066588,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 6.535285883935017e-07,
+     "eta": 7.364035081991462e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 2.0908257323764263,
+    "eta": 0.1654161473970632,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.2140420163868124,
+    "L": 0.003463670872844971,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 1.6203535620625965e-06,
+     "eta": 0.00014458517216553449,
+     "depth": [
+      0.003,
+      0.00475
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 2.190386267357223,
+    "eta": 0.13086823758607916,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9149903763703153,
+    "L": 0.0029822123881993365,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 6.542120358659978e-07,
+     "eta": 7.128647621357233e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   }
+  ],
+  "nodal/test_in/K24": [
+   {
+    "contains_truth": true,
+    "cert_rel_width": 11.915509014082005,
+    "eta": 0.3945120717260265,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9110511950815074,
+    "L": 0.003319626719119277,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 5.844070848009088e-07,
+     "eta": 6.910924264502684e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 8.213889193397689,
+    "eta": 0.3838174497225268,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.918866551266466,
+    "L": 0.003287096941554801,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 4.353189749872369e-07,
+     "eta": 7.091866757491518e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 10.291476421006731,
+    "eta": 0.37498164114308985,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9782669033312266,
+    "L": 0.00330236416113453,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 5.288267046920021e-07,
+     "eta": 6.657482094851731e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 49.886125970374636,
+    "eta": 0.6430980012006722,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9778094371600603,
+    "L": 0.0025815526173635127,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 1.3767518775443683e-06,
+     "eta": 0.00010122224682618254,
+     "depth": [
+      0.003,
+      0.00425
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 9.3474924102343,
+    "eta": 0.5589350075751444,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.344181283109892,
+    "L": 0.0033612834961776685,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 1.2706406358647453e-06,
+     "eta": 0.00012923468307235456,
+     "depth": [
+      0.003,
+      0.0045000000000000005
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 6.21786746889502,
+    "eta": 0.36837162124824147,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.401038855709063,
+    "L": 0.0029719097193587904,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 4.900321843967257e-07,
+     "eta": 7.8301255371116e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 48.21092933188402,
+    "eta": 0.6484691973312408,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.1115779086118303,
+    "L": 0.0025070918286031665,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 3.3229098174806598e-06,
+     "eta": 0.00016030307233450006,
+     "depth": [
+      0.003,
+      0.0045000000000000005
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 5.6819245526571605,
+    "eta": 0.3426124737496248,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.8333956431709417,
+    "L": 0.003219909383508693,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 3.47848025098592e-07,
+     "eta": 6.226364769190697e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 6.056976687523262,
+    "eta": 0.3395493230871564,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.292575583670837,
+    "L": 0.002781877827364542,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 4.119793214093916e-07,
+     "eta": 6.961983194742062e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 24.26104819166479,
+    "eta": 0.5419444694103485,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.015552357659218,
+    "L": 0.003139331380066588,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 6.742892189936928e-07,
+     "eta": 7.480091687739333e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 13.66110921223912,
+    "eta": 0.49381686819213066,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.2140420163868124,
+    "L": 0.003463670872844971,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 1.782342637667929e-06,
+     "eta": 0.00015164034266490492,
+     "depth": [
+      0.003,
+      0.00475
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 19.628652122165835,
+    "eta": 0.45642712656940704,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9149903763703153,
+    "L": 0.0029822123881993365,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 8.481791705950885e-07,
+     "eta": 8.116965500448715e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   }
+  ],
+  "nodal/test_in/K48": [
+   {
+    "contains_truth": true,
+    "cert_rel_width": 18.378142905868184,
+    "eta": 0.46075243446677583,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9110511950815074,
+    "L": 0.003319626719119277,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 5.999669103079477e-07,
+     "eta": 7.002325583016501e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 16.472828878962755,
+    "eta": 0.49676891363453646,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.918866551266466,
+    "L": 0.003287096941554801,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 4.482614439304034e-07,
+     "eta": 7.196524859409693e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 17.13007484425023,
+    "eta": 0.4489212960376383,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9782669033312266,
+    "L": 0.00330236416113453,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 5.227629410652922e-07,
+     "eta": 6.619201326429903e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 68.37423450096627,
+    "eta": 0.7459902602681205,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9778094371600603,
+    "L": 0.0025815526173635127,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 1.3673791305990614e-06,
+     "eta": 0.00010087709790695955,
+     "depth": [
+      0.003,
+      0.00425
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 17.483130143520224,
+    "eta": 0.6555210802816691,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.344181283109892,
+    "L": 0.0033612834961776685,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 1.2601993969979043e-06,
+     "eta": 0.00012870259752162386,
+     "depth": [
+      0.003,
+      0.0045000000000000005
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 12.890654600919108,
+    "eta": 0.47311525671365745,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.401038855709063,
+    "L": 0.0029719097193587904,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 5.094017638288622e-07,
+     "eta": 7.983385148691015e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 68.20306698025823,
+    "eta": 0.7652954018719211,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.1115779086118303,
+    "L": 0.0025070918286031665,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 3.276752551437631e-06,
+     "eta": 0.0001591858156189119,
+     "depth": [
+      0.003,
+      0.0045000000000000005
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 13.65105598121071,
+    "eta": 0.4581618374484643,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.8333956431709417,
+    "L": 0.003219909383508693,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 3.4562884606564765e-07,
+     "eta": 6.206470288816492e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 10.86023480360937,
+    "eta": 0.4218157479061216,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.292575583670837,
+    "L": 0.002781877827364542,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 3.966637988343556e-07,
+     "eta": 6.831341977431295e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 28.709642811895254,
+    "eta": 0.5787996156709377,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.015552357659218,
+    "L": 0.003139331380066588,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 7.37549367208759e-07,
+     "eta": 7.82312125693352e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 22.062075838786225,
+    "eta": 0.5995712615608458,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.2140420163868124,
+    "L": 0.003463670872844971,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 1.7602394527150007e-06,
+     "eta": 0.00015069713617776873,
+     "depth": [
+      0.003,
+      0.00475
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 25.274341337584968,
+    "eta": 0.5089267605092381,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9149903763703153,
+    "L": 0.0029822123881993365,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 8.290888770147895e-07,
+     "eta": 8.025097019981332e-05,
+     "depth": [
+      0.0032500000000000003,
+      0.004
+     ]
+    }
+   }
+  ],
+  "nodal/test_out/K12": [
+   {
+    "contains_truth": true,
+    "cert_rel_width": 14588.233531407075,
+    "eta": 8.459436809722181,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 0.7,
+    "L": 0.003,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.027315337932059564,
+     "eta": 0.010183107500779444,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 2531.2687236007337,
+    "eta": 4.0183527817924976,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.0,
+    "L": 0.003,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.002017216806764435,
+     "eta": 0.0031114426928979815,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 302.4213955750498,
+    "eta": 2.5879294308801835,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 5.0,
+    "L": 0.003,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 1.9055057601252892e-05,
+     "eta": 0.0005805548971693498,
+     "depth": [
+      0.002,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 3658.812781861218,
+    "eta": 14.080690183370903,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 10.0,
+    "L": 0.003,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.0003590992792406191,
+     "eta": 0.0034753650470520374,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 5.278223059106335,
+    "eta": 0.4387519443245426,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.8,
+    "L": 0.002,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.005816085053769164,
+     "eta": 0.0071399850276066,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 163.67866257693728,
+    "eta": 1.4261986217225175,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.8,
+    "L": 0.004,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.0008501822895587942,
+     "eta": 0.00324294793244917,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 119856.39161835569,
+    "eta": 18.32907272058129,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 0.7,
+    "L": 0.002,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.0956669915285087,
+     "eta": 0.017789157136576254,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 2354.905444524661,
+    "eta": 11.83706250725852,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 10.0,
+    "L": 0.004,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.005360337620439606,
+     "eta": 0.014554886525729673,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   }
+  ],
+  "nodal/test_out/K24": [
+   {
+    "contains_truth": true,
+    "cert_rel_width": 112178.07155988635,
+    "eta": 26.91421108485927,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 0.7,
+    "L": 0.003,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.24638525501132252,
+     "eta": 0.030578215757522943,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 9542.311379627406,
+    "eta": 10.442058640087236,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.0,
+    "L": 0.003,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.008992006904300515,
+     "eta": 0.006569123506778852,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 998.2192367929474,
+    "eta": 10.179759654143707,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 5.0,
+    "L": 0.003,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 3.500869133514514e-05,
+     "eta": 0.0007869119908718859,
+     "depth": [
+      0.0015,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 10357.366170218515,
+    "eta": 84.33782670662332,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 10.0,
+    "L": 0.003,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.0012863800512348518,
+     "eta": 0.006577703170478345,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 154.00287458642703,
+    "eta": 2.578446746204861,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.8,
+    "L": 0.002,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.01579390021740703,
+     "eta": 0.011766571900807323,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 411.355020381714,
+    "eta": 2.955829184945182,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.8,
+    "L": 0.004,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.0020660974082449394,
+     "eta": 0.0050554722765809865,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 415475.0061105951,
+    "eta": 46.022907166483485,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 0.7,
+    "L": 0.002,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.8984996271590767,
+     "eta": 0.054589105327781905,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 21007.52446948957,
+    "eta": 79.76551868672105,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 10.0,
+    "L": 0.004,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.024995646320265602,
+     "eta": 0.03142749180551619,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   }
+  ],
+  "nodal/test_out/K48": [
+   {
+    "contains_truth": true,
+    "cert_rel_width": 137842.66837191168,
+    "eta": 28.65513764137196,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 0.7,
+    "L": 0.003,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.23542699873456566,
+     "eta": 0.02989054612549984,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 11022.228044426609,
+    "eta": 10.828917437622668,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.0,
+    "L": 0.003,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.008481414204295178,
+     "eta": 0.0063798942283028745,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 1550.2483241177783,
+    "eta": 10.758869696338943,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 5.0,
+    "L": 0.003,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 3.4593674447007885e-05,
+     "eta": 0.0007822337856850937,
+     "depth": [
+      0.0015,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 14552.631393294092,
+    "eta": 86.30502367379138,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 10.0,
+    "L": 0.003,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.0012993027765454148,
+     "eta": 0.006610659467696679,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 220.53773053862943,
+    "eta": 2.7709267859577023,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.8,
+    "L": 0.002,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.015579404555106714,
+     "eta": 0.011686439698678443,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 434.91736181899535,
+    "eta": 3.059134618559666,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.8,
+    "L": 0.004,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.0020265296736702767,
+     "eta": 0.00500683231803123,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 567506.0272508308,
+    "eta": 50.371545878451634,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 0.7,
+    "L": 0.002,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.8822134681562309,
+     "eta": 0.054097655629271914,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 27882.661049813305,
+    "eta": 82.1034651389023,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 10.0,
+    "L": 0.004,
+    "reference": {
+     "contains_truth": true,
+     "cert_rel_width": 0.02358841010927763,
+     "eta": 0.030530319287208844,
+     "depth": [
+      0.0,
+      null
+     ]
+    }
+   }
+  ],
+  "energy/test_in/K12": [
+   {
+    "contains_truth": true,
+    "cert_rel_width": 73749.89651648769,
+    "eta": 17.73786614349197,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9110511950815074,
+    "L": 0.003319626719119277
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 25667.582946412866,
+    "eta": 15.998899292368316,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.918866551266466,
+    "L": 0.003287096941554801
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 68284.94619831277,
+    "eta": 17.622745733215634,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9782669033312266,
+    "L": 0.00330236416113453
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 95910.91066359167,
+    "eta": 19.513273129003007,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9778094371600603,
+    "L": 0.0025815526173635127
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 16395.85622615325,
+    "eta": 15.023001920842518,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.344181283109892,
+    "L": 0.0033612834961776685
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 19121.589527995216,
+    "eta": 16.053305701165893,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.401038855709063,
+    "L": 0.0029719097193587904
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 87011.70534345362,
+    "eta": 19.681634205755724,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.1115779086118303,
+    "L": 0.0025070918286031665
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 28643.678050247996,
+    "eta": 16.31981692844033,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.8333956431709417,
+    "L": 0.003219909383508693
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 24204.49983094637,
+    "eta": 17.027103719968803,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.292575583670837,
+    "L": 0.002781877827364542
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 68877.93055531238,
+    "eta": 17.835480254624088,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.015552357659218,
+    "L": 0.003139331380066588
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 18129.35097238702,
+    "eta": 15.051540527611802,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.2140420163868124,
+    "L": 0.003463670872844971
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 82887.63571590702,
+    "eta": 18.36660123372634,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9149903763703153,
+    "L": 0.0029822123881993365
+   }
+  ],
+  "energy/test_in/K24": [
+   {
+    "contains_truth": true,
+    "cert_rel_width": 130455.68812136356,
+    "eta": 44.357174653862664,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9110511950815074,
+    "L": 0.003319626719119277
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 68489.39941701802,
+    "eta": 48.489804189843625,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.918866551266466,
+    "L": 0.003287096941554801
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 122858.68499450294,
+    "eta": 44.622741835271334,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9782669033312266,
+    "L": 0.00330236416113453
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 161143.57756741712,
+    "eta": 46.828621476517355,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9778094371600603,
+    "L": 0.0025815526173635127
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 58347.00825213959,
+    "eta": 50.03477669715195,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.344181283109892,
+    "L": 0.0033612834961776685
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 60418.878266640735,
+    "eta": 50.87087772289599,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.401038855709063,
+    "L": 0.0029719097193587904
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 148168.71507683687,
+    "eta": 47.89435552848385,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.1115779086118303,
+    "L": 0.0025070918286031665
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 71473.48928924999,
+    "eta": 48.28088769691578,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.8333956431709417,
+    "L": 0.003219909383508693
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 65276.53500388598,
+    "eta": 50.906439260545326,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.292575583670837,
+    "L": 0.002781877827364542
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 122474.54791293453,
+    "eta": 44.96227764758408,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.015552357659218,
+    "L": 0.003139331380066588
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 60759.268580851494,
+    "eta": 49.27493624839956,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.2140420163868124,
+    "L": 0.003463670872844971
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 141401.66426069778,
+    "eta": 44.88272304382381,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9149903763703153,
+    "L": 0.0029822123881993365
+   }
+  ],
+  "energy/test_in/K48": [
+   {
+    "contains_truth": true,
+    "cert_rel_width": 133907.98064570883,
+    "eta": 46.88513098432323,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9110511950815074,
+    "L": 0.003319626719119277
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 72636.29172401279,
+    "eta": 51.257694808206594,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.918866551266466,
+    "L": 0.003287096941554801
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 126682.76979421946,
+    "eta": 47.18839579652136,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9782669033312266,
+    "L": 0.00330236416113453
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 163030.0569027315,
+    "eta": 49.71533284703125,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9778094371600603,
+    "L": 0.0025815526173635127
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 62241.894465023586,
+    "eta": 52.79078086144131,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.344181283109892,
+    "L": 0.0033612834961776685
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 64270.74955151444,
+    "eta": 53.81470887499793,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.401038855709063,
+    "L": 0.0029719097193587904
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 150539.68226306682,
+    "eta": 50.91293863235676,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.1115779086118303,
+    "L": 0.0025070918286031665
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 75701.54664385272,
+    "eta": 51.0748824446694,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.8333956431709417,
+    "L": 0.003219909383508693
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 69102.2321518776,
+    "eta": 53.9788311842577,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.292575583670837,
+    "L": 0.002781877827364542
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 126272.89822706005,
+    "eta": 47.598199877954734,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.015552357659218,
+    "L": 0.003139331380066588
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 64697.92699676698,
+    "eta": 51.98036143239665,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 3.2140420163868124,
+    "L": 0.003463670872844971
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 144292.03079937352,
+    "eta": 47.52579586799461,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.9149903763703153,
+    "L": 0.0029822123881993365
+   }
+  ],
+  "energy/test_out/K12": [
+   {
+    "contains_truth": true,
+    "cert_rel_width": 658880.1041330512,
+    "eta": 22.42589648497756,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 0.7,
+    "L": 0.003
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 333401.6225979952,
+    "eta": 21.28392706010495,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.0,
+    "L": 0.003
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 1873.2302015438606,
+    "eta": 13.319378231269905,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 5.0,
+    "L": 0.003
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 13577.204790384174,
+    "eta": 21.920010736876304,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 10.0,
+    "L": 0.003
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 59685.147880085686,
+    "eta": 21.322943070917503,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.8,
+    "L": 0.002
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 28075.473909384837,
+    "eta": 15.334215535999485,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.8,
+    "L": 0.004
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 1675503.6453955863,
+    "eta": 29.68380804175933,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 0.7,
+    "L": 0.002
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 11691.195135422862,
+    "eta": 23.429397170833283,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 10.0,
+    "L": 0.004
+   }
+  ],
+  "energy/test_out/K24": [
+   {
+    "contains_truth": true,
+    "cert_rel_width": 1218147.8047225203,
+    "eta": 44.99731814819856,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 0.7,
+    "L": 0.003
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 532240.6058340959,
+    "eta": 42.168792650922946,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.0,
+    "L": 0.003
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 41915.13316307114,
+    "eta": 57.51554838485912,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 5.0,
+    "L": 0.003
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 52019.99380350831,
+    "eta": 96.92417221796832,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 10.0,
+    "L": 0.003
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 109771.68828159593,
+    "eta": 53.89438099665618,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.8,
+    "L": 0.002
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 77889.45028445528,
+    "eta": 46.21515281696667,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.8,
+    "L": 0.004
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 2386591.527390431,
+    "eta": 53.63233636748921,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 0.7,
+    "L": 0.002
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 51813.07447391256,
+    "eta": 107.27872585361114,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 10.0,
+    "L": 0.004
+   }
+  ],
+  "energy/test_out/K48": [
+   {
+    "contains_truth": true,
+    "cert_rel_width": 1165731.8837118235,
+    "eta": 45.74641601495718,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 0.7,
+    "L": 0.003
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 498043.6713268422,
+    "eta": 43.630607171365476,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 1.0,
+    "L": 0.003
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 47046.830885245385,
+    "eta": 60.56766292941291,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 5.0,
+    "L": 0.003
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 61938.55892173147,
+    "eta": 102.10049223282704,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 10.0,
+    "L": 0.003
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 111549.33441317566,
+    "eta": 57.70902604689076,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.8,
+    "L": 0.002
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 82334.73817894618,
+    "eta": 48.68676644025309,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 2.8,
+    "L": 0.004
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 2361288.203462611,
+    "eta": 54.375299346196556,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 0.7,
+    "L": 0.002
+   },
+   {
+    "contains_truth": true,
+    "cert_rel_width": 66215.60296976363,
+    "eta": 112.7906540575473,
+    "depth": [
+     0.0,
+     null
+    ],
+    "rho": 10.0,
+    "L": 0.004
+   }
+  ]
+ }
+}

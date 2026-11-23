@@ -1,0 +1,6 @@
+{
+ "model": "mutant of claude-opus-5-5/001",
+ "mutation": "tissue and blood conductivities are swapped",
+ "old": "sig = np.where(zc < 0.0, st, sb)",
+ "new": "sig = np.where(zc < 0.0, sb, st)"
+}

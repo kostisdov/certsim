@@ -1,0 +1,6 @@
+{
+ "model": "mutant of claude-opus-5-5/001",
+ "mutation": "the total current omits the factor 2 pi (the field is right, the claim is not)",
+ "old": "current = 2.0 * np.pi * float(Rres[elec].sum())",
+ "new": "current = float(Rres[elec].sum())"
+}

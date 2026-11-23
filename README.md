@@ -7,13 +7,17 @@ guaranteed error bounds for that run, rounding included. The checker never runs
 or trusts the solver; it checks only what it receives.
 
 This repository contains the code and the scripts that reproduce every number
-in
+in two papers:
 
 > K. Dovelos, "Certificate-Based Verification of Pulsed Field Ablation Models,"
 > [arXiv:2611.18148](https://arxiv.org/abs/2611.18148), 2026. Source and PDF in
-> [`papers/1-pfa-certificates/`](papers/1-pfa-certificates/).
+> [`papers/1-pfa-certificates/`](papers/1-pfa-certificates/); tag `v1.0-preprint`.
 
-The tag `v1.0-preprint` is the version described in the paper.
+> K. Dovelos, "Verifying the Outputs of PDE Solvers: From Finite Elements to Neural
+> Surrogates," 2026. Source and PDF in
+> [`papers/2-verify-the-output/`](papers/2-verify-the-output/); tag `v2.0-preprint`.
+
+Each tag is the version described in its paper.
 
 ## Install
 
@@ -76,13 +80,14 @@ have their claims refuted or left unsupported.
 | `src/certsim/solver.py` | The finite-element solver and the stream-function adapter (untrusted) |
 | `src/certsim/gci.py`, `viz.py` | Grid convergence index; plotting helpers |
 | `tests/` | Test suite, including soundness tests with perturbed and wrong-physics certificates |
-| `papers/1-pfa-certificates/` | The paper, its figures, and `experiments/` |
+| `papers/1-pfa-certificates/` | Paper 1, its figures, and `experiments/` |
+| `papers/2-verify-the-output/` | Paper 2, its figures, and `experiments/` (FEniCSx, LLM-written solvers, surrogates) |
 | `results/` | Logs of the reference run; the scripts write their caches and figures here |
 
 The trusted base is `spec.py`, `checker.py` or `fastcheck.py`, `ranges.py`,
 python-flint and NumPy.
 
-## Reproducing the paper
+## Reproducing paper 1
 
 From the repository root (`E = papers/1-pfa-certificates/experiments`). Times
 are for a MacBook Pro (M5 Pro); the logs of a full run from scratch are in
@@ -104,6 +109,15 @@ relative in the bounds), which every digit reported in the paper absorbs.
 Figs. 1 and 2 are drawn in the LaTeX source. `pfa_feasibility.py` runs the
 earlier voxel-mean (adjoint) method, and `pfa_view.py` writes a 3D view for the
 Rerun viewer (`--group viz`).
+
+## Reproducing paper 2
+
+See [`papers/2-verify-the-output/README.md`](papers/2-verify-the-output/README.md):
+one folder per experiment, each with its commands. Besides uv, the FEniCSx
+experiment needs [pixi](https://pixi.sh), and the neural operators use the
+PyTorch environment in `experiments/e3b_fno` (about 1.5 hours of training on an
+Apple M5 Pro GPU). A full run from scratch reproduces the paper's results files,
+up to rounding in the last digits.
 
 ## Licence
 

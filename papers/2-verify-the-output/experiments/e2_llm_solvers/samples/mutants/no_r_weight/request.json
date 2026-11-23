@@ -1,0 +1,6 @@
+{
+ "model": "mutant of claude-opus-5-5/001",
+ "mutation": "the axisymmetric weight r is missing from the element integrals",
+ "old": "w = (0.25 * h1 * h2 * rq * sig)[:, None, None]",
+ "new": "w = (0.25 * h1 * h2 * sig)[:, None, None]"
+}

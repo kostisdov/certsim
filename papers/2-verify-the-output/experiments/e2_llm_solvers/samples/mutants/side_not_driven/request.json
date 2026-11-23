@@ -1,0 +1,6 @@
+{
+ "model": "mutant of claude-opus-5-5/001",
+ "mutation": "only the bottom face of the electrode is held at the voltage",
+ "old": "elec = (I <= ia) & (J >= jg) & (J <= jt)",
+ "new": "elec = (I <= ia) & (J == jg)"
+}

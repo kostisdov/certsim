@@ -1,0 +1,7 @@
+{
+ "model": "claude-opus-5-5",
+ "route": "fresh Claude Code subagent, no prior context, instructed to use no tools; prompt = SPEC.md verbatim plus a one-paragraph instruction",
+ "date": "2026-10-28",
+ "seed": null,
+ "has_code": true
+}

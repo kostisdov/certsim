@@ -1,0 +1,9 @@
+{
+ "model": "qwen3.8:27b-mlx",
+ "seed": 2,
+ "temperature": 0.7,
+ "think": false,
+ "seconds": 354.7,
+ "eval_count": 11901,
+ "has_code": true
+}

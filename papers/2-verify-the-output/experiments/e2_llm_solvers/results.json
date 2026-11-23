@@ -1,0 +1,338 @@
+{
+ "claude-opus-5-5/001": {
+  "runs": [
+   {
+    "h": 0.001,
+    "seconds": 0.1,
+    "Z_claim": 93.46680584451921,
+    "Z_cert": [
+     93.46680578525662,
+     94.27233925470844
+    ],
+    "eta": 0.009561388228680774,
+    "verdict": "unsupported"
+   },
+   {
+    "h": 0.0005,
+    "seconds": 0.1,
+    "Z_claim": 93.77642747750355,
+    "Z_cert": [
+     93.77642752918237,
+     94.05023585436976
+    ],
+    "eta": 0.0055718130718942155,
+    "verdict": "unsupported"
+   },
+   {
+    "h": 0.00025,
+    "seconds": 0.2,
+    "Z_claim": 93.89971062648775,
+    "Z_cert": [
+     93.89971068272047,
+     93.97820719458159
+    ],
+    "eta": 0.0029824932831022835,
+    "verdict": "certified"
+   }
+  ],
+  "correct_to_0.1%": true,
+  "gci": {
+   "R": 0.3981735636360999,
+   "kind": "converging",
+   "p": 1.328530657046405,
+   "ext": 93.98127582170234,
+   "band": [
+    93.7977541324695,
+    94.00166712050597
+   ]
+  }
+ },
+ "qwen3.8_27b-mlx/001": {
+  "runs": [
+   {
+    "h": 0.001,
+    "seconds": 0.6,
+    "verdict": "crashed",
+    "why": "bad output: 6397 non-finite values in v; impedance 0.0"
+   },
+   {
+    "h": 0.0005,
+    "seconds": 1.3,
+    "verdict": "crashed",
+    "why": "bad output: 15676 non-finite values in v; impedance 0.0"
+   },
+   {
+    "h": 0.00025,
+    "seconds": 3.8,
+    "verdict": "crashed",
+    "why": "bad output: 50272 non-finite values in v; impedance 0.0"
+   }
+  ],
+  "correct_to_0.1%": false,
+  "gci": null
+ },
+ "qwen3.8_27b-mlx/002": {
+  "runs": [
+   {
+    "h": 0.001,
+    "seconds": 0.4,
+    "Z_claim": 8.994708940697985e-05,
+    "Z_cert": [
+     8.994699535557517e-05,
+     94.27233925470844
+    ],
+    "eta": 105.44025864430569,
+    "verdict": "unsupported"
+   },
+   {
+    "h": 0.0005,
+    "seconds": 0.7,
+    "Z_claim": 7.106115853142487e-05,
+    "Z_cert": [
+     7.106109882210861e-05,
+     94.05023585436977
+    ],
+    "eta": 118.6270898804073,
+    "verdict": "unsupported"
+   },
+   {
+    "h": 0.00025,
+    "seconds": 2.1,
+    "Z_claim": 6.283251969891175e-05,
+    "Z_cert": [
+     6.283247253512167e-05,
+     93.97820719458159
+    ],
+    "eta": 126.1559620393671,
+    "verdict": "unsupported"
+   }
+  ],
+  "correct_to_0.1%": false,
+  "gci": {
+   "R": 0.4357020517936911,
+   "kind": "converging",
+   "p": 1.1985861877265167,
+   "ext": 5.647907674525345e-05,
+   "band": [
+    5.489071600683887e-05,
+    7.077432339098463e-05
+   ]
+  }
+ },
+ "mutants/current_without_2pi": {
+  "runs": [
+   {
+    "h": 0.001,
+    "seconds": 0.1,
+    "Z_claim": 587.2692611912902,
+    "Z_cert": [
+     93.46680578525662,
+     94.27233925470844
+    ],
+    "eta": 0.009561388228680774,
+    "verdict": "refuted"
+   },
+   {
+    "h": 0.0005,
+    "seconds": 0.1,
+    "Z_claim": 589.2146712864424,
+    "Z_cert": [
+     93.77642752918237,
+     94.05023585436976
+    ],
+    "eta": 0.0055718130718942155,
+    "verdict": "refuted"
+   },
+   {
+    "h": 0.00025,
+    "seconds": 0.2,
+    "Z_claim": 589.9892821567627,
+    "Z_cert": [
+     93.89971068272047,
+     93.97820719458159
+    ],
+    "eta": 0.0029824932831022835,
+    "verdict": "refuted"
+   }
+  ],
+  "correct_to_0.1%": false,
+  "gci": {
+   "R": 0.3981735636360653,
+   "kind": "converging",
+   "p": 1.32853065704653,
+   "ext": 590.501771392912,
+   "band": [
+    589.3486706115759,
+    590.6298937019494
+   ]
+  }
+ },
+ "mutants/no_r_weight": {
+  "runs": [
+   {
+    "h": 0.001,
+    "seconds": 0.1,
+    "Z_claim": 0.3920950845218897,
+    "Z_cert": [
+     40.11271201821492,
+     94.27233925470844
+    ],
+    "eta": 0.11967534238035875,
+    "verdict": "refuted"
+   },
+   {
+    "h": 0.0005,
+    "seconds": 0.1,
+    "Z_claim": 0.39277094771317317,
+    "Z_cert": [
+     40.29122552572954,
+     94.05023585436976
+    ],
+    "eta": 0.1191078675512748,
+    "verdict": "refuted"
+   },
+   {
+    "h": 0.00025,
+    "seconds": 0.2,
+    "Z_claim": 0.39296780960982947,
+    "Z_cert": [
+     40.34315689251371,
+     93.97820719458159
+    ],
+    "eta": 0.11893942336173023,
+    "verdict": "refuted"
+   }
+  ],
+  "correct_to_0.1%": false,
+  "gci": {
+   "R": 0.29127477157388876,
+   "kind": "converging",
+   "p": 1.7795473453536026,
+   "ext": 0.393048716711313,
+   "band": [
+    0.3928666757329751,
+    0.39306894348668386
+   ]
+  }
+ },
+ "mutants/side_not_driven": {
+  "runs": [
+   {
+    "h": 0.001,
+    "seconds": 0.1,
+    "Z_claim": 384.715272916204,
+    "verdict": "rejected",
+    "why": "v differs from the electrode voltage"
+   },
+   {
+    "h": 0.0005,
+    "seconds": 0.1,
+    "Z_claim": 389.40420986692874,
+    "verdict": "rejected",
+    "why": "v differs from the electrode voltage"
+   },
+   {
+    "h": 0.00025,
+    "seconds": 0.2,
+    "Z_claim": 390.85608624699745,
+    "verdict": "rejected",
+    "why": "v differs from the electrode voltage"
+   }
+  ],
+  "correct_to_0.1%": false,
+  "gci": {
+   "R": 0.30963870816055833,
+   "kind": "converging",
+   "p": 1.6913422597726748,
+   "ext": 391.5072773436701,
+   "band": [
+    390.04209737615656,
+    391.67007511783834
+   ]
+  }
+ },
+ "mutants/swapped_sigma": {
+  "runs": [
+   {
+    "h": 0.001,
+    "seconds": 0.1,
+    "Z_claim": 136.07666024228138,
+    "Z_cert": [
+     88.2256083774974,
+     94.27233925470844
+    ],
+    "eta": 0.026963163620810086,
+    "verdict": "refuted"
+   },
+   {
+    "h": 0.0005,
+    "seconds": 0.1,
+    "Z_claim": 136.5213796960735,
+    "Z_cert": [
+     88.50574237775086,
+     94.05023585436976
+    ],
+    "eta": 0.025808648886143645,
+    "verdict": "refuted"
+   },
+   {
+    "h": 0.00025,
+    "seconds": 0.2,
+    "Z_claim": 136.7229337056859,
+    "Z_cert": [
+     88.62048177645016,
+     93.97820719458159
+    ],
+    "eta": 0.02536352404637649,
+    "verdict": "refuted"
+   }
+  ],
+  "correct_to_0.1%": false,
+  "gci": {
+   "R": 0.45321608464338514,
+   "kind": "converging",
+   "p": 1.1417290315588893,
+   "ext": 136.88999699433646,
+   "band": [
+    136.5141045948727,
+    136.93176281649912
+   ]
+  }
+ },
+ "mutants/top_not_grounded": {
+  "runs": [
+   {
+    "h": 0.001,
+    "seconds": 0.1,
+    "Z_claim": 93.71428052851535,
+    "verdict": "rejected",
+    "why": "v is not zero on the ground"
+   },
+   {
+    "h": 0.0005,
+    "seconds": 0.1,
+    "Z_claim": 94.03052749307558,
+    "verdict": "rejected",
+    "why": "v is not zero on the ground"
+   },
+   {
+    "h": 0.00025,
+    "seconds": 0.2,
+    "Z_claim": 94.15545840667355,
+    "verdict": "rejected",
+    "why": "v is not zero on the ground"
+   }
+  ],
+  "correct_to_0.1%": false,
+  "gci": {
+   "R": 0.3950422536756672,
+   "kind": "converging",
+   "p": 1.3399211228428491,
+   "ext": 94.23703929386997,
+   "band": [
+    94.053482297678,
+    94.2574345156691
+   ]
+  }
+ }
+}

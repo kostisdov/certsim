@@ -1,0 +1,6 @@
+{
+ "model": "mutant of claude-opus-5-5/001",
+ "mutation": "the top boundary is left insulating instead of grounded",
+ "old": "ground = (I == Nr - 1) | (J == 0) | ((J == Nz - 1) & (I >= ia))",
+ "new": "ground = (I == Nr - 1) | (J == 0)"
+}

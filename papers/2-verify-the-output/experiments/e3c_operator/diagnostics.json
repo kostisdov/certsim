@@ -1,0 +1,20 @@
+{
+ "active_cells": 45416,
+ "active_cells_thinner_than_10nm": 9157,
+ "max_aspect_active": 3318802.535563597,
+ "max_aspect_thin": 3318802.535563597,
+ "test": "test_in_000.npz",
+ "rho": 1.9110511950815074,
+ "L": 0.003319626719119277,
+ "nodal_error_median_V": 0.00036203861236572266,
+ "nodal_error_max_V": 0.00892484188079834,
+ "reference_change_across_thin_cells_V": {
+  "median": 2.384185791015625e-07,
+  "p99": 0.00015693664550781353,
+  "max": 0.00047194957733154297
+ },
+ "stored_reference_eta": [
+  0.00015726152128081597,
+  0.00016403994573011008
+ ]
+}

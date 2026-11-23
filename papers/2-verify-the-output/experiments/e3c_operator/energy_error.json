@@ -1,0 +1,14 @@
+{
+ "operator.pt": {
+  "rel_energy_v_mean": 77.81441730260849,
+  "rel_energy_psi_mean": 1699.0989437103271,
+  "rel_energy_v_median": 78.8449821472168,
+  "rel_energy_psi_median": 1624.2662353515625
+ },
+ "operator_energy.pt": {
+  "rel_energy_v_mean": 45.37019807100296,
+  "rel_energy_psi_mean": 27.422252476215363,
+  "rel_energy_v_median": 44.54251670837402,
+  "rel_energy_psi_median": 26.689664840698242
+ }
+}
