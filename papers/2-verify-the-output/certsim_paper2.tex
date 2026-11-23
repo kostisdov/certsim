@@ -31,19 +31,19 @@ independent checker turns it into guaranteed error bounds against a written
 specification of the physics. Here, the same checker verifies the outputs of other
 solvers on the same problem. Specifically, FEniCSx
 computes both fields and receives the same bounds as our own solver. Five plausible
-bugs in a correct solver, one of them within 0.2\% of the true impedance, all
+bugs in a correct solver, one of them about 0.2\% from the true impedance, all
 converge and pass a grid convergence study, yet the certificate
 rejects or refutes all five. Of three solvers written by LLMs, one is correct and
 certified to 0.1\%, and one never solves the equation but converges. Neural
 networks that predict the coefficients of a reduced basis emit admissible fields and
-receive valid per-prediction bounds, within 0.002\% inside their training range
+receive valid per-prediction bounds, at most 0.0021\% wide inside their training range
 and 0.3--25\% wide outside it, where 90\% conformal intervals cover none of 14 tests.
 Untuned Fourier neural operators with free nodal outputs receive valid but
 uninformative bounds. On a uniform grid, interpolation onto the certificate grid limits
 them, and on the certificate grid, thin cells turn small nodal errors into large
-energy errors. Energy-norm training narrows the certified interval about
-tenfold, and projecting the outputs onto the reduced basis narrows it by two to four
-orders of magnitude, still short of an informative bound. The guarantee
+energy errors. Energy-norm training narrows the certified interval
+tenfold, and projecting the nodal-loss outputs onto the reduced basis narrows it by two to four
+orders of magnitude, still uninformative. The guarantee
 concerns the stated model and holds for any output, wherever its input lies. It is
 informative only when the output is accurate in energy on a grid that resolves the
 problem.
@@ -59,7 +59,7 @@ Simulations governed by partial differential equations (PDEs) used to be set up,
 meshed, and checked by an expert, run by run. Increasingly, no expert reviews each run. Design
 loops run thousands of simulations unattended, engineers ask large language models
 (LLMs) to write solvers, and learned surrogates predict full fields in milliseconds.
-None of them provides evidence that a particular output is accurate.
+None of these settings provides evidence that a particular output is accurate.
 
 The standard forms of evidence do not cover these cases. Code verification, for instance
 with manufactured solutions, shows that a code solves its equations correctly on
@@ -75,8 +75,8 @@ input or under a distribution shift. Distribution-free conditional coverage is
 impossible in general \cite{vovk2013,barber2021}.
 
 In earlier work \cite{dovelos2026}, we separated the question ``was the stated model
-solved correctly?'' from the solver that answers it. The solver returns a
-certificate with its answer, consisting of a potential that takes the prescribed
+solved correctly?'' from the solver that answers it. The solver returns its
+answer with a certificate, which consists of a potential that takes the prescribed
 electrode and ground values and a current that conserves charge exactly. A small
 independent checker verifies the certificate against a written
 specification of the physics. Using the Prager--Synge hypercircle
@@ -133,8 +133,8 @@ For neural PDE solvers, a priori results bound the size of an FNO needed for a g
 accuracy \cite{kovachki2021} and its error in reduced floating-point precision
 \cite{tu2024}, but they do not bound the error of a given prediction, which is what a
 posteriori bounds do. Networks and neural operators can be trained to output additional fields
-that yield functional error majorants, which are upper bounds, after a cheap
-post-processing step \cite{fanaskov2024,fanaskov2026}. In a majorant, the flux need
+from which a cheap post-processing step computes a functional error majorant, an
+upper bound on the error \cite{fanaskov2024,fanaskov2026}. In a majorant, the flux need
 not be divergence-free, and its residual enters with a Friedrichs-type constant
 \cite{repin2008}. Rigorous upper bounds also exist for physics-informed networks,
 derived from properties of the governing dynamics \cite{hillebrecht2025}. Lower and
@@ -164,8 +164,8 @@ equations. On a multiphysics benchmark, 39--40\% of generated input files did so
 which was found by reconstructing the encoded PDE and comparing it with the intended
 one \cite{song2026}. Such checks are structural and do not bound the error
 of an output. In this paper, one checker verifies a finite-element package,
-LLM-written programs, plausible bugs, and learned surrogates without change, and it
-is independent of every solver and rigorous including rounding. Because the learned
+LLM-written programs, plausible bugs, and learned surrogates without change. It is
+independent of every solver, and its bounds include rounding error. Because the learned
 reduced-order surrogates supply exactly admissible certificates, no Friedrichs-type
 constant enters.
 
@@ -176,28 +176,30 @@ conductivities $\sigma$, and the boundary conditions of
 $\nabla\cdot(\sigma\nabla u)=0$ for the potential $u$. A certificate consists of a
 potential $v$ and a current $F$. The potential is piecewise polynomial on a tensor
 grid, which we call the certificate grid, and takes the prescribed values on the electrodes and the ground. The current
-is the curl of a piecewise-polynomial stream function, so it is exactly
+is the curl of a piecewise-polynomial stream function $\psi$, so it is exactly
 divergence-free and has no flux through insulating walls. With
-$\lVert X\rVert^2=\int|X|^2\sigma^{-1}\,\mathrm{d}\mu$, the hypercircle theorem
+$\lVert X\rVert^2=\int|X|^2\sigma^{-1}\,\mathrm{d}\mu$ and $\mathrm{d}\mu=2\pi r\,\mathrm{d}r\,\mathrm{d}z$, the hypercircle theorem
 places $\sigma\nabla u$ on the sphere with center $c=(\sigma\nabla v+F)/2$ and
 radius $\eta/2$, where $\eta=\lVert\sigma\nabla v-F\rVert$. This theorem, together
 with the Dirichlet and Thomson principles, gives two-sided bounds on the conductance
 and on the root-mean-square field of every lesion-map tile, a ring of tissue
 \SI{0.25}{mm} wide that is proven lethal, proven spared, or undecided as its interval
-lies above, below, or across the lethal threshold. The energy of $v$ bounds
+lies above, below, or across the lethal threshold (\SI{700}{V/cm} at \SI{1000}{V}
+here). The energy of $v$ bounds
 the impedance from below and that of $F$ from above.
 
 The checker makes two tests. The specification check verifies admissibility
 exactly, by comparing floating-point values for equality. Numerical verification
 encloses every cell integral in 256-bit ball arithmetic and bounds the numerical
 error. For any admissible certificate, the resulting interval contains the true
-value of the stated model. A wrong solver therefore fails the specification check,
-or the impedance it reports, which we call its claim, falls outside the interval, or
+value of the stated model. A wrong output therefore fails the specification check,
+or the impedance that the run reports, which we call its claim, falls outside the
+interval, or
 the interval is too wide to support the claim. The experiments with FEniCSx,
 plausible bugs, and LLM-written solvers use this 256-bit checker. Most surrogate
 experiments involve many predictions and use the vectorized checker of
 \cite{dovelos2026} instead, which reproduces its bounds in double-precision ball
-arithmetic at 4--14\% of the time our solver needs for both fields.
+arithmetic at 4--15\% of the time our solver needs for both fields.
 
 A solver that returns only a potential is turned into a certificate by an
 \emph{adapter}, which fits the stream function to $\sigma\nabla v$ by least squares.
@@ -266,11 +268,11 @@ claims are judged against them.}
 All experiments use the monopolar lesion-map problem of \cite{dovelos2026}, in
 which a metal electrode of radius \SI{1.25}{mm} and length \SI{3}{mm} is in contact
 with myocardium ($\sigma_t=\SI{0.25}{S/m}$) under blood ($\sigma_b=\SI{0.7}{S/m}$, as
-stored in binary64), with a grounded box \SI{50}{mm} away. Its certified impedance,
+stored in binary64), with a grounded box \SI{50}{mm} away. Its certified impedance $Z$,
 \SIrange{93.9502742}{93.9502758}{\ohm} (degree 3, $169\times332$ cells, bounds
 rounded outward), serves as the reference. Our solver's certificate has
 $\eta=1.3\times10^{-5}$ against $\lVert c\rVert\approx0.10$ at \SI{1}{V}, a relative
-energy error of about $10^{-4}$, and a larger $\eta$ means a less accurate field. For each run, the interval is computed
+error of about $10^{-4}$ in the energy norm, and a larger $\eta$ means a less accurate field. For each run, the interval is computed
 from that run's fields alone, and its claimed impedance is then compared with it. A
 run has one of five outcomes. It has \emph{crashed} if it produces no valid output,
 and it is \emph{rejected} if its certificate is inadmissible. It is \emph{refuted} if
@@ -291,9 +293,8 @@ stream functions on a tensor mesh in the coordinates $(r^2,z)$, in which the str
 function is polynomial, with the stream function set to zero on the axis and
 constant on the shaft. This certificate, assembled and solved entirely by FEniCSx
 from our dual formulation, receives \SIrange{93.950274296}{93.950275789}{\ohm} with
-$\eta=1.3\times10^{-5}$, identical to the bound for our own solver. Its lower end is
-the energy of FEniCSx's potential and its upper end that of FEniCSx's current, and
-as in \cite{dovelos2026}, the two potentials differ by at most \SI{7e-9}{V}.
+$\eta=1.3\times10^{-5}$, identical to the bound for our own solver. Its ends are the
+energies of FEniCSx's potential and current, and as in \cite{dovelos2026}, the two potentials differ by at most \SI{7e-9}{V}.
 
 On its own mesh, FEniCSx provides an independent discretization. Gmsh
 \cite{geuzaine2009} meshes the geometry with triangles that are graded geometrically
@@ -321,10 +322,10 @@ FEniCSx & Unknowns & Certified impedance (\si{\ohm}) & $\eta$ & Tiles, median & 
 P2, \SI{0.25}{mm}, \SI{1}{\micro m} grading & 21\,591 & 93.80965--93.95028 & $4.0\times10^{-3}$ & 200\% & no\\
 P2, \SI{0.25}{mm}, \SI{1}{nm} grading & 26\,310 & 93.94985--93.95028 & $2.2\times10^{-4}$ & 32\% & yes\\
 P3, \SI{0.25}{mm}, \SI{1}{nm} grading & 58\,927 & 93.950272--93.950276 & $2.0\times10^{-5}$ & 3.0\% & yes\\
-Same grid, native (Q3) & 410\,248 & 93.950274296--93.950275789 & $1.3\times10^{-5}$ & 1.9\% & yes\\
+Certificate grid, native (Q3) & 410\,248 & 93.950274296--93.950275789 & $1.3\times10^{-5}$ & 1.9\% & yes\\
 \bottomrule
 \end{tabular}}
-\par\vspace{2pt}\footnotesize\raggedright Rows 1--3: current from the adapter. ``Claim proven'': its impedance proven to $10^{-5}$. Bounds rounded outward.
+\par\vspace{2pt}\footnotesize\raggedright Rows 1--3: current from the adapter. P$k$: Lagrange triangles of degree $k$; Q3: degree-3 tensor elements. Tiles: median relative width. ``Claim proven'': FEniCSx's impedance proven to $10^{-5}$. Bounds rounded outward.
 \end{table}
 
 For a comparison with a mesh study, we refined two families of Gmsh meshes by
@@ -351,7 +352,8 @@ mesh is inadequate near the electrode. Figure~\ref{fig:gci} shows both families.
 mesh, and the GCI band from the three finest meshes, relative to the true value.
 Left: quadratic elements without corner grading, where the band ends just below the
 true value. Right (symmetric logarithmic scale): cubic elements graded to
-\SI{1}{nm}, where both contain it.}
+\SI{1}{nm}, where the certified interval contains it and the band, about
+\SI{3e-8}{\ohm} below it, lies inside the reference interval.}
 \label{fig:gci}
 \end{figure}
 
@@ -359,8 +361,9 @@ Each solver receives the same specification, which consists of the PDE, the
 geometry, the boundary conditions, and a file interface. It does not receive the
 lists of boundary nodes, so locating them is part of the task. Each solver runs in a
 scratch folder at three systematically refined resolutions (1, 0.5, and
-\SI{0.25}{mm}). Its potential is certified without modification, with the current from the
-adapter, and its claimed impedances on the three grids form a mesh study.
+\SI{0.25}{mm}) and writes its potential on its own tensor grid. The checker certifies
+this potential at degree 1 on that grid, with the current from the adapter, and the
+claimed impedances on the three grids form a mesh study.
 
 Earlier work \cite{dovelos2026} showed that a mesh study accepts two wrong-physics
 variants of our solver. Here, we applied five plausible one-line bugs, including
@@ -368,7 +371,7 @@ those two, to a different correct solver, namely the program written by Claude
 Opus~5.5 and described below. Table~\ref{tab:mutants} shows the result. All five
 variants converge, so a mesh study accepts all five, but the certificate catches
 every one. The hardest case is the top boundary left insulating instead of
-grounded. Its impedance is within 0.2\% of the true value, and only the
+grounded. Its impedance is about 0.2\% from the true value, and only the
 specification check exposes it. A claim above the true value is refuted by the upper
 bound, which here comes from the adapter, and a claim below it is refuted by the
 energy of the solver's own potential. In \cite{dovelos2026}, the swapped
@@ -439,12 +442,13 @@ supply one through the routes of Figure~\ref{fig:process}. For a native certific
 the surrogate predicts the free nodal values of both the potential and the stream
 function on the certificate grid, and the boundary and wall values are imposed
 exactly, so the certificate is entirely the surrogate's. Reduced-order surrogates
-with one and two inputs follow the native route (Section~\ref{sec:rom}).
+with one input, the conductivity ratio $\rho$, and with two, $\rho$ and the electrode
+length $L$, follow the native route (Section~\ref{sec:rom}).
 A neural operator on a uniform grid follows the transfer route
 (Section~\ref{sec:fno-uniform}), and one on the certificate grid the native route
 again (Section~\ref{sec:fno-grid}). Section~\ref{sec:baselines} compares the
-certificate with conformal intervals and a functional majorant on the same
-predictions, and Table~\ref{tab:training} gives their training details.
+certificate with conformal intervals and a functional majorant, and
+Table~\ref{tab:training} gives the training details.
 
 \begin{table}[t]
 \centering
@@ -501,21 +505,22 @@ Two inputs & inside (12) & 12 & $6.4\times10^{-7}$--$1.9\times10^{-5}$ & $1.1\ti
  & outside (8) & 8 & 0.27--25\% & $1.4\times10^{-4}$--$2.8\times10^{-2}$ & 0\\
 \bottomrule
 \end{tabular}}
-\par\vspace{2pt}\footnotesize\raggedright One input: test ratios 1.8--3.6 inside, 0.7--1.3 and 5--10 outside. Two inputs: 12 random members inside; $\rho=0.7$, 1, 5, 10 and $L=2$, \SI{4}{mm} outside. Conformal intervals: Section~\ref{sec:baselines}.
+\par\vspace{2pt}\footnotesize\raggedright One input: test ratios 1.8--3.6 inside, 0.7--1.3 and 5--10 outside. Two inputs: 12 random members inside; $(\rho, L/\mathrm{mm})$ = (0.7, 3), (1, 3), (5, 3), (10, 3), (2.8, 2), (2.8, 4), (0.7, 2), (10, 4) outside. Conformal intervals: Section~\ref{sec:baselines}.
 \end{table}
 
 Every interval contains the true impedance, as the theorem guarantees, which also
 serves as a check of the implementation. Inside the range, the impedance is
-certified to $10^{-8}$--$10^{-5}$ with one input and to
+certified to $2\times10^{-8}$--$2\times10^{-5}$ with one input and to
 $6\times10^{-7}$--$2\times10^{-5}$ with two. The tile intervals vary more, with
 median widths of 3--139\% for one input, because every tile uses the global $\eta$.
 With two inputs, the lesion depth at \SI{1000}{V} and \SI{700}{V/cm} is bracketed on
-both sides in 6 of 12 in-range tests, and every bracket overlaps that of the
+both sides, by a proven-lethal and a proven-spared tile on the axis, in 6 of 12
+in-range tests, and every bracket overlaps that of the
 reference. Inside the range, $\eta$ is $2\times10^{-5}$--$9\times10^{-4}$ with one
 input and $9\times10^{-5}$--$1.1\times10^{-3}$ with two. The two-input training
 fields are stored in single precision, so a stored reference field itself receives
 $\eta\approx1.6\times10^{-4}$, and the projection onto 12 modes removes part of this
-rounding error. Outside the range, $\eta$ grows by two to three orders of magnitude,
+rounding error. Outside the range, $\eta$ grows by one to three orders of magnitude,
 the intervals stay valid, and the tiles become undecided.
 
 The one-input surrogate also predicts the impedance directly. This output has errors
@@ -573,13 +578,13 @@ Zero field (boundary values only) & 17--65 & 0.0002--0.0034 & = true value & und
 
 All intervals contain the true value, and none is informative on the lower side,
 which is the side that the transferred potential determines. The upper bound comes from the adapter, and the zero field
-receives it too. The limiting factor is therefore the transfer. The reference
-solution sampled on the same grid does no better than the FNO, because no sampling
-on a uniform \SI{0.2}{mm} grid resolves the singular field at the electrode edge,
-and because we sample the insulating shaft as \SI{0}{V}, this control is
-deliberately pessimistic. With this
+receives it too. The reference solution sampled on the same grid does no better than
+the FNO, because no sampling on a uniform \SI{0.2}{mm} grid resolves the singular
+field at the electrode edge; this control is also deliberately pessimistic, because
+we sample the insulating shaft as \SI{0}{V}. The limiting factor is therefore the
+transfer. With this
 transfer, no field sampled at \SI{0.2}{mm} received an informative bound. Compared
-with the reference field on its own grid at $\rho=2.8$, the FNO errs by
+with the reference field sampled on the same uniform grid at $\rho=2.8$, the FNO errs by
 \SI{0.15}{mV} on average more than \SI{0.5}{mm} from the electrode, but by
 \SI{16}{mV} on average and \SI{64}{mV} at most within \SI{0.5}{mm} of it. The
 training loss, dominated by the far field, does not show these errors. Section~\ref{sec:fno-grid} avoids the transfer.
@@ -613,8 +618,8 @@ be.
 We then fine-tuned the operator with a loss that measures what the certificate
 measures, namely the energy of the error of the potential and the complementary
 energy of the error of the stream function, with the boundary values imposed inside
-the network's output. This lowers the relative energy errors, averaged over the
-training fields, from 78 and 1\,700 for the potential and the stream function to 45
+the network's output. This lowers the energies of the errors, relative to the
+energies of the fields and averaged over the training fields, from 78 and 1\,700 for the potential and the stream function to 45
 and 27, and it lowers $\eta$ four- to sixfold. Both errors remain much larger than
 the energies of the fields themselves, so the fine-tuned operator is still far from
 accurate, and its bounds remain uninformative.
@@ -674,14 +679,15 @@ Split conformal prediction \cite{angelopoulos2023} calibrates an interval around
 point estimate on held-out members of the training distribution. Here, it uses 90\%
 nominal coverage, with 20 members for the one-input surrogate and 24 for the
 two-input one. Inside the range, it covers 5 of 6 and 12 of 12 tests. Around the
-impedance from the potential, its half-widths are $3.3\times10^{-7}$ and
-$1.6\times10^{-5}$, comparable with or narrower than the certified widths. Outside
+impedance from the potential, its intervals are $6.6\times10^{-7}$ and
+$3.2\times10^{-5}$ of the impedance wide, comparable with the certified widths. Outside
 the range, it covers none of the 14 tests, because the errors there exceed the
-calibrated half-width by orders of magnitude, while every certified interval
+calibrated half-width by a factor of 9 or more, while every certified interval
 contains the true value (Table~\ref{tab:e3} and Figure~\ref{fig:surrogate}). For the
-neural operators, whose estimates are 98\% too low, the conformal intervals inside
-the range are 1.8--3.6 times the impedance wide, narrower than the certified ones,
-and cover 12 and 10 of the 12 tests. Outside the range, they cover none of the 8.
+neural operators trained with the nodal and the energy loss, whose estimates are 98\%
+too low, the conformal intervals inside the range are 1.8--3.6 times the impedance
+wide, narrower than their certified ones, and cover 12 and 10 of the 12 tests,
+respectively. Outside the range, they cover none of the 8.
 The conformal guarantee holds on average over the calibration distribution and says
 nothing about a shifted input, whereas the certificate holds for each output.
 
@@ -689,12 +695,14 @@ Learned-majorant methods for neural solutions \cite{fanaskov2024,fanaskov2026}
 evaluate a functional majorant \cite{repin2008}. For an admissible potential $v$ and
 any current $y$ with no flux through the insulating walls, where $y$ need not be
 divergence-free, it states that
-$\lVert\sigma\nabla(v-u)\rVert\le\lVert\sigma\nabla v-y\rVert+C_F\,\sigma_{\min}^{-1/2}\lVert\nabla\cdot y\rVert$.
+$\lVert\sigma\nabla(v-u)\rVert\le\lVert\sigma\nabla v-y\rVert+C_F\,\sigma_{\min}^{-1/2}\lVert\nabla\cdot y\rVert$,
+the latter an unweighted $L^2$ norm.
 Every vertical line through the monopolar domain ends on the electrode or the ground
 at both ends, so the Friedrichs constant
-$C_F=(H+Z_{\mathrm{top}})/\pi=\SI{31.8}{mm}$ holds rigorously. We recover $y$ from
+$C_F=H/\pi=\SI{31.8}{mm}$, with $H=\SI{100}{mm}$ the height of the domain, holds
+rigorously. We recover $y$ from
 the potential by nodal averaging of $\sigma\nabla v$ and set its normal component to
-zero on the axis and the shaft, which is the cheapest admissible choice, and we
+zero on the axis and the shaft, which is the least expensive choice, and we
 evaluate the majorant in double precision. With this current, the majorant gives no
 finite upper bound on the impedance for any surrogate here, nor for our solver's own
 solution. On that solution, its flux term, $1.45\times10^{-5}$, is close to
@@ -709,7 +717,7 @@ majorant reduces to the hypercircle bound used here.
 
 \section{Discussion}\label{sec:discussion}
 
-The experiments separate two questions that a mesh study answers together, namely
+The experiments separate two questions that a mesh study conflates, namely
 whether the discretization converges and whether it converges to the solution of the
 stated problem. A mesh study answers the first question, within its asymptotic
 assumptions and with judgment about safety factors. Because it compares a solver only
@@ -720,72 +728,64 @@ quality of that run. For conventional solvers, the two methods are therefore
 complementary, with a mesh study for exploration and a certificate for the runs that
 support a decision. For learned surrogates, the certificate applies to any output and
 is informative when the fields are accurate in energy on the certificate grid. This
-holds for the neural networks that predict POD coefficients, but not for the neural
-operators with free nodal outputs, even after projection onto the same
-basis, because their errors fall in directions that the solution barely uses.
+holds for networks that predict POD coefficients, but not for neural operators with
+free nodal outputs, even after projection, because their errors lie in directions
+that the solution barely uses.
 
 A user supplies the specification, a tensor grid whose lines contain the breakpoints
-of the geometry and of the tiles, and nodal values on that grid, namely the
-potential and, if the solver computes one, the stream function. A solver on its own
+of the geometry and of the tiles, and the nodal values of the potential, and
+of the stream function if the solver computes one. A solver on its own
 mesh evaluates its potential at the nodes of the grid and gives the boundary nodes
 their exact values, and the adapter then costs about as much as a primal solve. The
-vectorized check of \cite{dovelos2026} takes 4--14\% of the time our solver needs
-for both fields, and about a quarter of the \SI{3.8}{s} that FEniCSx needs for both
-fields on the lesion-map grid. A surrogate built for the native route outputs both
+vectorized check of \cite{dovelos2026} takes 4--15\% of our solver's time for both
+fields and about 30\% of FEniCSx's \SI{3.8}{s}. A surrogate built for the native route outputs both
 fields on the grid, so its certificate costs one forward pass and one check.
 
-The route also determines which bounds come from the solver. For a native
-certificate, both bounds do. For a potential-only solver, the dual solve of the
-adapter supplies the upper bound, and the certificate tests the solver through the
-energy of its potential and through $\eta$. Solvers that return both fields, as
-FEniCSx did here and as the reduced-order surrogates do by construction, give the
-strongest and cheapest evidence.
+The route also determines which bounds come from the solver. Solvers that return
+both fields, as FEniCSx did here and as the reduced-order surrogates do by
+construction, supply both bounds themselves and give the strongest and cheapest
+evidence.
 
-A certificate bounds numerical error only, and whether the stated model describes
+A certificate bounds numerical error only; whether the stated model describes
 tissue is a question of validation \cite{dovelos2026}. The test problem is linear,
-steady, elliptic, and axisymmetric, and the hypercircle relies on this structure.
+steady, elliptic, and axisymmetric. The hypercircle relies on the first three
+properties, whereas axisymmetry only reduces the problem to two dimensions.
 Certificates for a solver on its own mesh include the error of transferring its field
 to the certificate grid, which a checker for the solver's own elements would remove.
 Tile bounds use the global $\eta$, so local quantities are certified less tightly
 than a converged mesh study estimates them, and localized bounds are the main open
-improvement. Three LLM-written programs and five plausible bugs make a case study and
-are too few for statistics. The neural operators were trained on 32 and 64 members
+improvement. Three LLM-written programs and five plausible bugs are a case study, too
+few for statistics. The neural operators were trained on 32 and 64 members
 without tuning. An operator trained on the coefficients of a basis consistent with
-the solver, or one working on a grid without long thin cells, may perform better,
-while projecting the outputs of our operators in the nodal $\ell^2$ norm was not
-enough. The checker, our solver, and the adapter share one implementation of the
-boundary-node rules of the specification, so an error there would be common to all
-three. Finally, the vectorized checker is rigorous under the arithmetic assumptions
-stated in \cite{dovelos2026}.
+the solver, or one working on a grid without long thin cells, may perform better;
+projecting our operators' outputs in the nodal $\ell^2$ norm was not enough. The checker, our solver, and the adapter share one implementation of the
+specification's boundary-node rules, so an error there would be common to all
+three. The vectorized checker is rigorous under the assumptions of \cite{dovelos2026}.
 
-Nothing in the certificate depends on axisymmetry. In three dimensions, the current
-can be supplied as the curl of a N\'ed\'elec vector potential, the analog of the
-stream function, so that it is exactly divergence-free with floating-point
-coefficients. A conductivity that increases with the field keeps the energy convex,
+In three dimensions, the current
+can be supplied as the curl of a N\'ed\'elec vector potential, which keeps it
+exactly divergence-free in floating point. A conductivity that increases with the field keeps the energy convex,
 and convex duality then gives certificates of the same kind \cite{repin2008}.
 Surrogates can be made to emit admissible fields with distance-function
-constructions \cite{sukumar2022}, and a vectorized checker over tetrahedra, with a
-cost linear in the number of elements like that of \cite{dovelos2026}, would make
-three-dimensional meshes of millions of elements practical to check.
+constructions \cite{sukumar2022}, and a vectorized checker over tetrahedra would make
+meshes of millions of elements practical to check.
 
 \section{Conclusion}
 The checker of \cite{dovelos2026}, without any change, verified the outputs of
-solvers other than our own. It certified FEniCSx, a widely used finite-element package,
-from the package's own potential and current, as tightly as our own solver. It caught five
+solvers other than our own. It certified FEniCSx from the package's own potential and
+current as tightly as our own solver. It caught five
 plausible bugs and an LLM-written solver that a mesh study accepted, and it certified
 a correct LLM-written solver to 0.1\%. It gave valid bounds for each prediction of
 neural networks on a reduced basis, narrow inside their training range and valid
 outside it, where conformal intervals failed. It also exposed neural operators whose
 nodal errors were small but whose fields were not accurate in energy, even after
 projection onto the same basis. With the vectorized checker of \cite{dovelos2026},
-checking a native certificate costs 4--14\% of our solver's time and about a quarter
-of the time FEniCSx needs, and a potential-only output also needs the adapter, at
-about the cost of a primal solve.
+a native certificate costs 4--15\% of our solver's time to check, and a
+potential-only output also needs the adapter, about one primal solve.
 
 The check needs no expert and no reference solution, and it holds for each output,
-wherever its input lies. It is informative only when the output resolves the problem
-and comes in certificate form, which favors solvers and surrogates that emit both
-fields. The next steps are a second test problem, localized bounds, a formally
+wherever its input lies. It is informative only when the output is accurate in energy
+on a grid that resolves the problem, and outputs with both fields need no adapter. The next steps are a second test problem, localized bounds, a formally
 verified checker, and three-dimensional certificates.
 
 \section*{Code Availability}

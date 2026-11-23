@@ -36,8 +36,22 @@ import numpy as np
 from flint import arb
 
 from .checker import (
-    PI, CertificateError, Interval, Report, _Basis, _Cell, _cells_in_box, _check_boxes, _check_grid,
-    _check_values, _curl, _grad, _lin, _nodal, _pos, sqrtpos,
+    PI,
+    CertificateError,
+    Interval,
+    Report,
+    _Basis,
+    _Cell,
+    _cells_in_box,
+    _check_boxes,
+    _check_grid,
+    _check_values,
+    _curl,
+    _grad,
+    _lin,
+    _nodal,
+    _pos,
+    sqrtpos,
 )
 from .spec import FocalPFASpec, element_masks, node_masks, tissue_cells
 
@@ -62,35 +76,12 @@ def check_range(spec: FocalPFASpec, certs, rhos, pieces: int = 64) -> RangeRepor
     ``certs[k]`` must be a certificate for ``spec`` with sigma_blood =
     rhos[k] * sigma_tissue; all certificates share one grid and degree.
     """
-    rhos = [float(x) for x in rhos]
-    if len(certs) != len(rhos) or len(rhos) < 2 or any(b <= a for a, b in zip(rhos, rhos[1:])):
-        raise CertificateError("need at least two certificates at increasing ratios")
-    if spec.voxels:
-        raise CertificateError("voxel adjoints are not supported over ranges")
-    p = int(certs[0].degree)
-    r, z = np.asarray(certs[0].r, float), np.asarray(certs[0].z, float)
-    for c in certs:
-        if int(c.degree) != p or not (np.array_equal(c.r, r) and np.array_equal(c.z, z)):
-            raise CertificateError("certificates must share grid and degree")
-    _check_grid(spec, r, z)
-    shape = (p * (len(z) - 1) + 1, p * (len(r) - 1) + 1)
-    masks = node_masks(spec, r, z, p)
-    active, sigma_el = element_masks(spec, r, z)
-    for c in certs:
-        _check_values(spec, masks, c, shape)
-    _check_boxes(spec, r, z, active)
-    tissue = tissue_cells(r, z)  # by geometry: spec.sigma_blood plays no part in a range
-    for b in spec.regions + spec.tiles:
-        if not np.all(tissue[_cells_in_box(b, r, z)]):
-            raise CertificateError(f"{b} must lie in tissue for range bounds")
-    basis = _Basis(p)
-    boxes = spec.regions + spec.tiles
-    box_cells = [_cells_in_box(b, r, z) for b in boxes]
+    rhos, p, r, z, active, tissue, boxes, box_cells = _validate_range(spec, certs, rhos)
     cell_boxes = {}
     for bidx, cells in enumerate(box_cells):
         for j, i in zip(*np.nonzero(cells)):
             cell_boxes.setdefault((j, i), []).append(bidx)
-
+    basis = _Basis(p)
     K = len(certs)
     st = arb(spec.sigma_tissue)
     sig_b = [st * arb(x) for x in rhos]  # blood conductivity at each sample
@@ -126,6 +117,41 @@ def check_range(spec: FocalPFASpec, certs, rhos, pieces: int = 64) -> RangeRepor
                 cv = [cell.inner(cen[k], cen[k]), cell.inner(cen[k], dc), cell.inner(dc, dc)]
                 for bidx in in_boxes:
                     box[k][bidx] = [a + b for a, b in zip(box[k][bidx], cv)]
+    return _evaluate_range(spec, rhos, mat, box, boxes, pieces)
+
+
+def _validate_range(spec: FocalPFASpec, certs, rhos):
+    """The admissibility and layout checks shared by the 256-bit and vectorized range checkers."""
+    rhos = [float(x) for x in rhos]
+    if len(certs) != len(rhos) or len(rhos) < 2 or any(b <= a for a, b in zip(rhos, rhos[1:])):
+        raise CertificateError("need at least two certificates at increasing ratios")
+    if spec.voxels:
+        raise CertificateError("voxel adjoints are not supported over ranges")
+    p = int(certs[0].degree)
+    r, z = np.asarray(certs[0].r, float), np.asarray(certs[0].z, float)
+    for c in certs:
+        if int(c.degree) != p or not (np.array_equal(c.r, r) and np.array_equal(c.z, z)):
+            raise CertificateError("certificates must share grid and degree")
+    _check_grid(spec, r, z)
+    shape = (p * (len(z) - 1) + 1, p * (len(r) - 1) + 1)
+    masks = node_masks(spec, r, z, p)
+    active, sigma_el = element_masks(spec, r, z)
+    for c in certs:
+        _check_values(spec, masks, c, shape)
+    _check_boxes(spec, r, z, active)
+    tissue = tissue_cells(r, z)  # by geometry: spec.sigma_blood plays no part in a range
+    for b in spec.regions + spec.tiles:
+        if not np.all(tissue[_cells_in_box(b, r, z)]):
+            raise CertificateError(f"{b} must lie in tissue for range bounds")
+    boxes = spec.regions + spec.tiles
+    box_cells = [_cells_in_box(b, r, z) for b in boxes]
+    return rhos, p, r, z, active, tissue, boxes, box_cells
+
+
+def _evaluate_range(spec, rhos, mat, box, boxes, pieces):
+    """Bounds over every ratio from the accumulated Gram entries (arb balls), on sub-intervals of s."""
+    st = arb(spec.sigma_tissue)
+    K = len(rhos)
 
     def quad(G, a, b, c):
         g11, g22, g33, g12, g13, g23 = G

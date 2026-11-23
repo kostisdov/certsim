@@ -1,0 +1,4 @@
+17 solves 154 s, vectorized range check 30.1 s
+eta_max: 256-bit 1.520675e-05, vectorized 1.520678e-05, relative difference 2.5e-06
+tiles 768: every interval overlaps the 256-bit one: True; largest relative endpoint difference 2.3e-07
+lesion extents over all ratios (Table 2) identical: True

@@ -11,8 +11,10 @@ grid column are computed once per column in arb, with the same recurrences as
 Rigour rests on these assumptions, which hold for numpy on IEEE hardware:
   A1 binary64 arithmetic with round-to-nearest, so a single +, -, x or / of
      floats has relative error at most U = 2**-53 (Higham, Thm 2.2);
-  A2 no flush-to-zero or denormals-are-zero, so underflow loses at most 2**-1074
-     absolutely (covered by TINY);
+  A2 no flush-to-zero or denormals-are-zero, so a product or quotient that underflows
+     loses at most 2**-1075 absolutely, and a sum never underflows. Every operation adds a
+     multiple of TINY = 2**-1074 that covers the underflow of its own products, including the
+     products inside matrix products, scaled by the magnitudes they are later multiplied by;
   A3 sums and matrix products are formed by some order of pairwise additions of
      correctly rounded products, possibly with fused multiply-add, but not by
      Strassen-type algorithms; then a sum of n terms has error at most
@@ -25,6 +27,10 @@ with k at least the number of roundings in its computation (Rump 2012), so the
 computed radius bounds the exact one.
 
 Not supported: voxel (adjoint) outputs. Use ``checker.check`` for those.
+
+``fast_check_range`` does the same for ``ranges.check_range``: the Gram entries of every
+segment are accumulated in ball arithmetic, and the evaluation over sub-intervals of the
+conductivity ratio is the arb code of ``ranges`` itself.
 """
 
 import math
@@ -32,8 +38,21 @@ import math
 import numpy as np
 from flint import arb, ctx, fmpq, fmpq_mat
 
-from .checker import (CertificateError, Interval, Report, _check_boxes, _check_grid, _check_values,
-                      _cells_in_box, _pmax, _pmin, _pos, lower, sqrtpos, upper)
+from .checker import (
+    CertificateError,
+    Interval,
+    Report,
+    _cells_in_box,
+    _check_boxes,
+    _check_grid,
+    _check_values,
+    _pmax,
+    _pmin,
+    _pos,
+    lower,
+    sqrtpos,
+    upper,
+)
 from .spec import FocalPFASpec, element_masks, node_masks
 
 U = 2.0**-53  # unit roundoff of float64
@@ -69,8 +88,9 @@ class Ball:
         return Ball(x, 2 * U * np.abs(x) + TINY)
 
     def _fin(self, m, r):
-        # midpoint error <= U |exact| <= 2U |m|; the radius r took at most five roundings
-        return Ball(m, (r + 2 * U * np.abs(m)) * RAD + TINY)
+        # midpoint error <= U |exact| <= 2U |m|; the radius r took at most five roundings;
+        # 4 TINY covers the underflow of the midpoint product and of the three radius products
+        return Ball(m, (r + 2 * U * np.abs(m)) * RAD + 4 * TINY)
 
     def __add__(self, o):
         return self._fin(self.m + o.m, self.r + o.r)
@@ -104,7 +124,7 @@ def _recip(b):
     if np.any(lo <= 0):
         raise CertificateError("division by a quantity that may be zero")
     r = b.r / (lo * np.abs(b.m)) + 2 * U * np.abs(m)
-    return Ball(m, r * RAD + TINY)
+    return Ball(m, r * RAD + 4 * TINY)
 
 
 def _polymul(a, b):
@@ -134,11 +154,12 @@ def _coeffs(nodal, Vi):
     tmp_m = np.einsum("ka,eba->ekb", Vi.m, nodal.m)
     tmp_r = (np.einsum("ka,eba->ekb", np.abs(Vi.m), nodal.r) + np.einsum("ka,eba->ekb", Vi.r, np.abs(nodal.m))
              + np.einsum("ka,eba->ekb", Vi.r, nodal.r) + _gamma(p1 + 2) * np.einsum("ka,eba->ekb", np.abs(Vi.m), np.abs(nodal.m)))
-    tmp = Ball(tmp_m, tmp_r * (1 + _gamma(4 * p1 + 16)) + TINY)
+    # each of the five sums above has p1 products, each losing at most TINY to underflow
+    tmp = Ball(tmp_m, tmp_r * (1 + _gamma(4 * p1 + 16)) + 8 * p1 * TINY)
     out_m = np.einsum("lb,ekb->ekl", Vi.m, tmp.m)
     out_r = (np.einsum("lb,ekb->ekl", np.abs(Vi.m), tmp.r) + np.einsum("lb,ekb->ekl", Vi.r, np.abs(tmp.m))
              + np.einsum("lb,ekb->ekl", Vi.r, tmp.r) + _gamma(p1 + 2) * np.einsum("lb,ekb->ekl", np.abs(Vi.m), np.abs(tmp.m)))
-    return Ball(out_m, out_r * (1 + _gamma(4 * p1 + 16)) + TINY)
+    return Ball(out_m, out_r * (1 + _gamma(4 * p1 + 16)) + 8 * p1 * TINY)
 
 
 def _column_moments(r1, r2, J):
@@ -280,17 +301,36 @@ def fast_check(spec: FocalPFASpec, cert, chunk: int = 20000) -> Report:
     )
 
 
-def _chunk(j, i, r, z, p, sigma_el, cert, Vi, mom, inv_k1, inv_k2, w_eta, J):
-    """Integrals over a chunk of cells; returns per-chunk sums and per-cell cc."""
-    ne = len(j)
+def _geometry(j, i, r, z, p, mom, inv_k1, inv_k2, J):
+    """Per-cell geometry shared by every certificate on the grid: lengths, reciprocals, the map
+    xs = T1 xi + T2 xi^2, the 1/r moments and the r-weighted moments, and 2 pi hr hz."""
     r1, r2, z1, z2 = Ball.exact(r[i]), Ball.exact(r[i + 1]), Ball.exact(z[j]), Ball.exact(z[j + 1])
     hr, hz = r2 - r1, z2 - z1
     rsum = r1 + r2
     hs = hr * rsum  # r2^2 - r1^2 without cancellation on thin cells
-    sig = Ball.exact(sigma_el[j, i])
-    inv_hr, inv_hz, inv_hs, inv_sig = _recip(hr), _recip(hz), _recip(hs), _recip(sig)
     on_axis = r[i] == 0.0
+    # xs = T1 xi + T2 xi^2 with T1 = 2 r1 hr / hs = 2 r1 / (r1 + r2) and
+    # T2 = hr^2 / hs = hr / (r1 + r2), free of cancellation (exactly 0 and 1 on the axis)
+    inv_rsum = _recip(rsum)
+    T1 = (Ball.of(2.0) * r1) * inv_rsum
+    T2 = hr * inv_rsum
+    T1 = Ball(np.where(on_axis, 0.0, T1.m), np.where(on_axis, 0.0, T1.r))
+    T2 = Ball(np.where(on_axis, 1.0, T2.m), np.where(on_axis, 0.0, T2.r))
+    return {
+        "j": j, "i": i, "p": p, "on_axis": on_axis,
+        "inv_hr": _recip(hr), "inv_hz": _recip(hz), "inv_hs": _recip(hs), "T1": T1, "T2": T2,
+        "cols": mom[i],  # (e, J): int xi^k / (r1 + hr xi)
+        "rq": r1[:, None] * inv_k1[None, :J] + hr[:, None] * inv_k2[None, :J],  # int xi^k (r1 + hr xi)
+        "rpoly": Ball(np.stack([r1.m, hr.m], axis=-1), np.stack([r1.r, hr.r], axis=-1))[:, None, :],
+        "area": Ball.of(2.0) * Ball.of(math.pi) * hr * hz,  # 2 pi hr hz
+    }
 
+
+def _fields(geo, cert, Vi, sig):
+    """sigma grad v and F = curl psi on each cell, as (P, Q, Z): r-component P + Q / r and
+    z-component Z, all ball polynomials [e, eta power, xi power] of degree 2p in xi."""
+    j, i, p, on_axis = geo["j"], geo["i"], geo["p"], geo["on_axis"]
+    inv_hr, inv_hz, inv_hs, T1, T2 = geo["inv_hr"], geo["inv_hz"], geo["inv_hs"], geo["T1"], geo["T2"]
     # nodal values f[e, b(eta), a(xi)] of v and psi, exact floats
     bi = p * j[:, None, None] + np.arange(p + 1)[None, :, None]
     ai = p * i[:, None, None] + np.arange(p + 1)[None, None, :]
@@ -325,13 +365,6 @@ def _chunk(j, i, r, z, p, sigma_el, cert, Vi, mom, inv_k1, inv_k2, w_eta, J):
     dxs = Ball(Dt.m[..., 1:], Dt.r[..., 1:]) * al[1:]  # [e, beta, p]
     dz = Ball(np.zeros_like(Dt.m), np.zeros_like(Dt.r))
     dz.m[:, :-1], dz.r[:, :-1] = (Dt[:, 1:, :] * al[1:, None]).m, (Dt[:, 1:, :] * al[1:, None]).r
-    # xs = T1 xi + T2 xi^2 with T1 = 2 r1 hr / hs = 2 r1 / (r1 + r2) and
-    # T2 = hr^2 / hs = hr / (r1 + r2), free of cancellation (exactly 0 and 1 on the axis)
-    inv_rsum = _recip(rsum)
-    T1 = (Ball.of(2.0) * r1) * inv_rsum
-    T2 = hr * inv_rsum
-    T1 = Ball(np.where(on_axis, 0.0, T1.m), np.where(on_axis, 0.0, T1.r))
-    T2 = Ball(np.where(on_axis, 1.0, T2.m), np.where(on_axis, 0.0, T2.r))
     Fz = _compose(dxs, T1, T2, deg) * (Ball.of(2.0) * inv_hs)[:, None, None]
     Fz = _pad(Fz, deg + 1)
     Qnum = _compose(dz, T1, T2, deg) * (-inv_hz)[:, None, None]  # F_r = Qnum / r
@@ -341,28 +374,44 @@ def _chunk(j, i, r, z, p, sigma_el, cert, Vi, mom, inv_k1, inv_k2, w_eta, J):
     shifted = _pad(Ball(Qnum.m[..., 1:], Qnum.r[..., 1:]), deg + 1) * inv_hr[:, None, None]
     Fr_poly = Ball(np.where(on_axis[:, None, None], shifted.m, 0.0), np.where(on_axis[:, None, None], shifted.r, 0.0))
     Fr_q = Ball(np.where(on_axis[:, None, None], 0.0, Qnum.m), np.where(on_axis[:, None, None], 0.0, Qnum.r))
-
-    half = Ball.exact(0.5)
     zero_q = Ball(np.zeros_like(Fr_q.m))
+    return (sv_r, zero_q, sv_z), (Fr_poly, Fr_q, Fz)
+
+
+def _inner(geo, X, Y, w_eta):
+    """int X . Y d mu / (2 pi hr hz) on each cell, for fields X = (P, Q, Z) and Y."""
+    on_axis = geo["on_axis"]
+    same = X is Y
+    (Px, Qx, Zx), (Py, Qy, Zy) = X, Y
+
+    def b(A, B, M):
+        return _quad(A, M, w_eta) if same else _bilin(A, B, M, w_eta)
+
+    # r-component P + Q / r: off the axis integrate N_X N_Y / r with N = P r + Q, so that the
+    # cancellation between P and Q happens once, in N's coefficients; on the axis Q = 0.
+    Nx = _polymul(Px, geo["rpoly"]) + _pad(Qx, Px.m.shape[-1] + 1)
+    Ny = Nx if same else _polymul(Py, geo["rpoly"]) + _pad(Qy, Py.m.shape[-1] + 1)
+    I_off = b(Nx, Ny, geo["cols"])
+    I_axis = b(Px, Py, geo["rq"])
+    I_r = Ball(np.where(on_axis, I_axis.m, I_off.m), np.where(on_axis, I_axis.r, I_off.r))
+    return I_r + b(Zx, Zy, geo["rq"])
+
+
+def _chunk(j, i, r, z, p, sigma_el, cert, Vi, mom, inv_k1, inv_k2, w_eta, J):
+    """Integrals over a chunk of cells; returns per-chunk sums and per-cell cc."""
+    geo = _geometry(j, i, r, z, p, mom, inv_k1, inv_k2, J)
+    sig = Ball.exact(sigma_el[j, i])
+    inv_sig = _recip(sig)
+    (sv_r, zero_q, sv_z), (Fr_poly, Fr_q, Fz) = _fields(geo, cert, Vi, sig)
+    half = Ball.exact(0.5)
     fields = {
         "sv": (sv_r, zero_q, sv_z),
         "F": (Fr_poly, Fr_q, Fz),
         "dp": (sv_r - Fr_poly, -Fr_q, sv_z - Fz),
         "c": ((sv_r + Fr_poly) * half, Fr_q * half, (sv_z + Fz) * half),
     }
-    scale = (Ball.of(2.0) * Ball.of(math.pi) * hr * hz) * inv_sig  # 2 pi hr hz / sigma
-    cols = mom[i]  # (e, J): int xi^k / (r1 + hr xi)
-    rq = (r1[:, None] * inv_k1[None, :J] + hr[:, None] * inv_k2[None, :J])  # int xi^k (r1 + hr xi)
-    rpoly = Ball(np.stack([r1.m, hr.m], axis=-1), np.stack([r1.r, hr.r], axis=-1))[:, None, :]
-    out = {}
-    for name, (P, Q, Z) in fields.items():
-        # r-component P + Q / r: off the axis integrate N^2 / r with N = P r + Q, so that the
-        # cancellation between P and Q happens once, in N's coefficients; on the axis Q = 0.
-        N = _polymul(P, rpoly) + _pad(Q, P.m.shape[-1] + 1)
-        I_off = _quad(N, cols, w_eta)
-        I_axis = _quad(P, rq, w_eta)
-        I_r = Ball(np.where(on_axis, I_axis.m, I_off.m), np.where(on_axis, I_axis.r, I_off.r))
-        out[name] = (I_r + _quad(Z, rq, w_eta)) * scale
+    scale = geo["area"] * inv_sig  # 2 pi hr hz / sigma
+    out = {name: _inner(geo, X, X, w_eta) * scale for name, X in fields.items()}
     sums = {"E_v": out["sv"].sum(), "W_F": out["F"].sum(), "eta2": out["dp"].sum(), "cc": out["c"].sum()}
     return sums, out["c"]
 
@@ -391,4 +440,157 @@ def _quad(X, M, w):
     rad = (2 * form(aX, aw, aM, X.r) + form(X.r, aw, aM, X.r)
            + form(big, aw, Mk.r, big) + form(big, w.r, aM + Mk.r, big)
            + _gamma(n + 6) * form(aX, aw, aM, aX))
+    rad = rad + _underflow(big, aw + w.r, aM + Mk.r, big)
     return Ball(mid, rad * (1 + _gamma(2 * n + 32)) + TINY)
+
+
+def _underflow(A, W, Mx, B):
+    """Bound on the underflow of the forms in _quad and _bilin, per cell.
+
+    A form sums T * V over (b1, k2) with T = A Mx (D products per entry) and V = W B (Bd products
+    per entry), all magnitudes bounded by the nonnegative A, W, Mx, B given here. Each product loses
+    at most TINY to underflow, so T and V lose at most D TINY and Bd TINY per entry, and each final
+    product loses TINY more; the loss of T is scaled by |V| and that of V by |T|. Seven forms (the
+    midpoint and the radius terms) each obey this bound, and their nonnegative radius sums add no
+    underflow; a factor 8 covers all of them.
+    """
+    Bd, D = A.shape[1], A.shape[2]
+    absT = np.matmul(A, Mx)
+    absV = np.matmul(W, B)
+    per_cell = Bd * D + D * np.sum(absV, axis=(1, 2)) + Bd * np.sum(absT, axis=(1, 2))
+    return 8 * TINY * per_cell * (1 + _gamma(2 * Bd * D + 8))
+
+
+def _bilin(X, Y, M, w):
+    """sum over b1, b2, k1, k2 of w[b1, b2] X[b1, k1] Y[b2, k2] M[k1 + k2], per cell, as balls.
+
+    The bilinear form of ``_quad``; for X = Y it gives the same midpoint and, up to the order of
+    summation, the same radius. The radius bounds the input radii and, through gamma, the rounding
+    of every product and of the summation, and through ``_underflow`` their underflow.
+    """
+    D = X.m.shape[-1]
+    k = np.arange(D)
+    Mk = M[:, k[:, None] + k[None, :]]  # (e, D, D)
+
+    def form(A, W, Mx, B):
+        T = np.matmul(A, Mx)
+        V = np.matmul(W, B)
+        return np.sum(T * V, axis=(1, 2))
+
+    aX, aY, aw, aM = np.abs(X.m), np.abs(Y.m), np.abs(w.m), np.abs(Mk.m)
+    bigX, bigY = aX + X.r, aY + Y.r
+    n = (X.m.shape[1] * D) ** 2
+    mid = form(X.m, w.m, Mk.m, Y.m)
+    rad = (form(aX, aw, aM, Y.r) + form(X.r, aw, aM, aY) + form(X.r, aw, aM, Y.r)
+           + form(bigX, aw, Mk.r, bigY) + form(bigX, w.r, aM + Mk.r, bigY)
+           + _gamma(n + 6) * form(aX, aw, aM, aY))
+    rad = rad + _underflow(bigX, aw + w.r, aM + Mk.r, bigY)
+    return Ball(mid, rad * (1 + _gamma(2 * n + 32)) + TINY)
+
+
+def _tri(X, a=None, Y=None, b=None):
+    """a X + b Y for fields X = (P, Q, Z), with a, b per-cell balls (None: 1 and absent)."""
+    def scale(c, A):
+        return A if c is None else A * c[:, None, None]
+    out = tuple(scale(a, A) for A in X)
+    if Y is not None:
+        out = tuple(A + scale(b, B) for A, B in zip(out, Y))
+    return out
+
+
+def fast_check_range(spec: FocalPFASpec, certs, rhos, pieces: int = 64, chunk: int = 20000):
+    """Same bounds as ranges.check_range, with the cell integrals in double-precision ball
+    arithmetic. Validation and the evaluation over sub-intervals of s are those of ranges."""
+    from .ranges import _evaluate_range, _validate_range
+
+    if not _subnormals_preserved():
+        raise RuntimeError("subnormal numbers are flushed to zero in this process (assumption A2)")
+    rhos, p, r, z, active, tissue, boxes, _ = _validate_range(spec, certs, rhos)
+    index_maps = []
+    for offset, group in ((0, spec.regions), (len(spec.regions), spec.tiles)):
+        m = np.full(active.shape, -1)
+        for k, b in enumerate(group):
+            cells = _cells_in_box(b, r, z)
+            if np.any(m[cells] >= 0):
+                raise ValueError("fast_check_range needs disjoint regions and disjoint tiles")
+            m[cells] = offset + k
+        index_maps.append(m)
+
+    Vi = _lagrange_to_monomial(p)
+    J = 4 * p + 4
+    mom = _column_moments(r[:-1], r[1:], J)
+    kk = np.arange(J)
+    inv_k1, inv_k2 = Ball.of(1.0 / (kk + 1.0)), Ball.of(1.0 / (kk + 2.0))
+    bb = np.arange(p + 1)
+    w_eta = Ball.of(1.0 / (bb[:, None] + bb[None, :] + 1.0))
+
+    K = len(certs)
+    st = float(spec.sigma_tissue)  # as stored (A4)
+    sb = [Ball.exact(np.array(st)) * Ball.exact(np.array(x)) for x in rhos]  # blood sigma, enclosed
+    mat = [{"t": [[] for _ in range(6)], "b": [[] for _ in range(6)]} for _ in range(K - 1)]
+    box_m = np.zeros((K - 1, len(boxes), 3))
+    box_r = np.zeros((K - 1, len(boxes), 3))
+
+    jj, ii = np.nonzero(active)
+    g_all = _gamma(len(jj) + 2)
+    for start in range(0, len(jj), chunk):
+        j, i = jj[start:start + chunk], ii[start:start + chunk]
+        e = len(j)
+        geo = _geometry(j, i, r, z, p, mom, inv_k1, inv_k2, J)
+        ones = Ball.exact(np.ones(e))
+        tis = tissue[j, i]
+        area = geo["area"]
+
+        def res(k, gv, F, tis=tis, ones=ones):
+            sig = Ball(np.where(tis, st, float(sb[k].m)), np.where(tis, 0.0, float(sb[k].r)))
+            return _tri(gv, sig, F, -ones)  # sigma_k grad v_k - F_k, sigma_k per material
+
+        gv0, F0 = _fields(geo, certs[0], Vi, ones)
+        res_prev = res(0, gv0, F0)
+        gv_prev = gv0
+        # cells that lie in a region or a tile, and their geometry, for the centre terms
+        sel = np.zeros(e, dtype=bool)
+        for m in index_maps:
+            sel |= m[j, i] >= 0
+        if sel.any():
+            jb, ib = j[sel], i[sel]
+            geo_b = _geometry(jb, ib, r, z, p, mom, inv_k1, inv_k2, J)
+            ones_b, half_b = Ball.exact(np.ones(sel.sum())), Ball.exact(np.full(sel.sum(), 0.5))
+            st_b = Ball.exact(np.full(sel.sum(), st))
+            gb, Fb = _fields(geo_b, certs[0], Vi, ones_b)
+            cen_prev = _tri(gb, st_b * half_b, Fb, half_b)  # (sigma_t grad v + F) / 2
+        for k in range(K - 1):
+            gv1, F1 = _fields(geo, certs[k + 1], Vi, ones)
+            res_next = res(k + 1, gv1, F1)
+            d = _tri(gv_prev, None, gv1, -ones)
+            X, Y, Z = res_prev, res_next, d
+            vals = [_inner(geo, X, X, w_eta), _inner(geo, Y, Y, w_eta), _inner(geo, Z, Z, w_eta),
+                    _inner(geo, X, Y, w_eta), _inner(geo, X, Z, w_eta), _inner(geo, Y, Z, w_eta)]
+            for q, v in enumerate(vals):
+                v = v * area
+                for mname, msk in (("t", tis), ("b", ~tis)):
+                    mat[k][mname][q].append(Ball(v.m[msk], v.r[msk]).sum())
+            if sel.any():
+                gb, Fb = _fields(geo_b, certs[k + 1], Vi, ones_b)
+                cen_next = _tri(gb, st_b * half_b, Fb, half_b)
+                dc = _tri(cen_next, None, cen_prev, -ones_b)
+                cv = [_inner(geo_b, cen_prev, cen_prev, w_eta), _inner(geo_b, cen_prev, dc, w_eta),
+                      _inner(geo_b, dc, dc, w_eta)]
+                for q, v in enumerate(cv):
+                    v = v * geo_b["area"]
+                    for m in index_maps:
+                        bidx = m[jb, ib]
+                        ok = bidx >= 0
+                        np.add.at(box_m[k, :, q], bidx[ok], v.m[ok])
+                        np.add.at(box_r[k, :, q], bidx[ok], v.r[ok] + g_all * np.abs(v.m[ok]))
+                cen_prev = cen_next
+            res_prev, gv_prev = res_next, gv1
+
+    def total(parts):
+        return Ball(np.array([b.m for b in parts]), np.array([b.r for b in parts])).sum().to_arb()
+
+    mat_arb = [{mname: [total(mat[k][mname][q]) for q in range(6)] for mname in ("t", "b")} for k in range(K - 1)]
+    infl = 1 + _gamma(2 * len(jj) + 8)
+    box_arb = [[[arb(float(box_m[k, bidx, q]), float(box_r[k, bidx, q] * infl + TINY)) for q in range(3)]
+                for bidx in range(len(boxes))] for k in range(K - 1)]
+    return _evaluate_range(spec, rhos, mat_arb, box_arb, boxes, pieces)
