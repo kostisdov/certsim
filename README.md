@@ -11,10 +11,11 @@ in two papers:
 
 > K. Dovelos, "Certificate-Based Verification of Pulsed Field Ablation Models,"
 > [arXiv:2611.18148](https://arxiv.org/abs/2611.18148), 2026. Source and PDF in
-> [`papers/1-pfa-certificates/`](papers/1-pfa-certificates/); tag `v1.0-preprint`.
+> [`papers/1-pfa-certificates/`](papers/1-pfa-certificates/); tag `v1.0-preprint` (arXiv v1),
+> tag `v1.1-preprint` (arXiv v2).
 
 > K. Dovelos, "Verifying the Outputs of PDE Solvers: From Finite Elements to Neural
-> Surrogates," 2026. Source and PDF in
+> Surrogates," [arXiv:2611.31211](https://arxiv.org/abs/2611.31211), 2026. Source and PDF in
 > [`papers/2-verify-the-output/`](papers/2-verify-the-output/); tag `v2.0-preprint`.
 
 Each tag is the version described in its paper.
